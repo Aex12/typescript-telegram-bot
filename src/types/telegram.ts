@@ -13,8 +13,6 @@ export interface ErrorResponse {
 
 export type Response<T> = ValidResponse<T> | ErrorResponse;
 
-export type Result = Update | User | Chat;
-
 export type RequestParameters = GetUpdatesParameters
 	| SetWebhookParameters
 	| DeleteWebhookParameters
