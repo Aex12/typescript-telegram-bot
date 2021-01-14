@@ -45,11 +45,207 @@ class TelegramBot {
 	}
 
 	getUpdates (params?: Tgt.GetUpdatesParameters): Promise<Tgt.Update[]> {
-		return this.request<Tgt.Update[]>('getUpdates', params);
+		return this.request('getUpdates', params);
+	}
+
+	setWebhook (params?: Tgt.SetWebhookParameters): Promise<void> {
+		return this.request('setWebHook', params);
+	}
+
+	deleteWebhook (params?: Tgt.DeleteWebhookParameters): Promise<void> {
+		return this.request('deleteWebHook', params);
+	}
+
+	getWebhookInfo (): Promise<Tgt.WebhookInfo> {
+		return this.request('deleteWebHook');
 	}
 
 	getMe (): Promise<Tgt.User> {
-		return this.request<Tgt.User>('getMe');
+		return this.request('getMe');
+	}
+
+	logOut (): Promise<void> {
+		return this.request('logOut');
+	}
+
+	close (): Promise<void> {
+		return this.request('logOut');
+	}
+
+	sendMessage (params: Tgt.SendMessageParameters): Promise<Tgt.Message> {
+		return this.request('sendMessage', params);
+	}
+
+	forwardMessage (params: Tgt.ForwardMessageParameters): Promise<Tgt.Message> {
+		return this.request('forwardMessage', params);
+	}
+
+	copyMessage (params: Tgt.CopyMessageParameters): Promise<Tgt.MessageId> {
+		return this.request('copyMessage', params);
+	}
+
+	sendPhoto (params: Tgt.SendPhotoParameters): Promise<Tgt.Message> {
+		return this.request('sendPhoto', params);
+	}
+
+	sendAudio (params: Tgt.SendAudioParameters): Promise<Tgt.Message> {
+		return this.request('sendAudio', params);
+	}
+
+	sendDocument (params: Tgt.SendDocumentParameters): Promise<Tgt.Message> {
+		return this.request('sendDocument', params);
+	}
+
+	sendVideo (params: Tgt.SendVideoParameters): Promise<Tgt.Message> {
+		return this.request('sendVideo', params);
+	}
+
+	sendAnimation (params: Tgt.SendAnimationParameters): Promise<Tgt.Message> {
+		return this.request('sendAnimation', params);
+	}
+
+	sendVoice (params: Tgt.SendVoiceParameters): Promise<Tgt.Message> {
+		return this.request('sendVoice', params);
+	}
+
+	sendVideoNote (params: Tgt.SendVideoNoteParameters): Promise<Tgt.Message> {
+		return this.request('sendVideoNote', params);
+	}
+
+	sendMediaGroup (params: Tgt.SendMediaGroupParameters): Promise<Tgt.Message[]> {
+		return this.request('sendMediaGroup', params);
+	}
+
+	sendLocation (params: Tgt.SendLocationParameters): Promise<Tgt.Message> {
+		return this.request('sendLocation', params);
+	}
+
+	editMessageLiveLocation (params: Tgt.EditMessageLiveLocationParameters): Promise<Tgt.Message | true> {
+		return this.request('editMessageLiveLocation', params);
+	}
+
+	stopMessageLiveLocation (params: Tgt.StopMessageLiveLocationParameters): Promise<Tgt.Message | true> {
+		return this.request('stopMessageLiveLocation', params);
+	}
+
+	sendVenue (params: Tgt.SendVenueParameters): Promise<Tgt.Message> {
+		return this.request('sendVenue', params);
+	}
+
+	sendContact (params: Tgt.SendContactParameters): Promise<Tgt.Message> {
+		return this.request('sendContact', params);
+	}
+
+	sendPoll (params: Tgt.SendPollParameters): Promise<Tgt.Message> {
+		return this.request('sendPoll', params);
+	}
+
+	sendDice (params: Tgt.SendDiceParameters): Promise<Tgt.Message> {
+		return this.request('sendDice', params);
+	}
+
+	sendChatAction (params: Tgt.SendChatActionParameters): Promise<true> {
+		return this.request('sendChatAction', params);
+	}
+
+	getUserProfilePhotos (params: Tgt.GetUserProfilePhotosParameters): Promise<Tgt.UserProfilePhotos> {
+		return this.request('getUserProfilePhotos', params);
+	}
+
+	getFile (params: Tgt.GetFileParameters): Promise<Tgt.File> {
+		return this.request('getFile', params);
+	}
+
+	kickChatMember (params: Tgt.KickChatMemberParameters): Promise<true> {
+		return this.request('kickChatMember', params);
+	}
+
+	unbanChatMember (params: Tgt.UnbanChatMemberParameters): Promise<true> {
+		return this.request('unbanChatMember', params);
+	}
+
+	restrictChatMember (params: Tgt.RestrictChatMemberParameters): Promise<true> {
+		return this.request('restrictChatMember', params);
+	}
+
+	promoteChatMember (params: Tgt.PromoteChatMemberParameters): Promise<true> {
+		return this.request('promoteChatMember', params);
+	}
+
+	setChatAdministratorCustomTitle (params: Tgt.SetChatAdministratorCustomTitleParameters): Promise<true> {
+		return this.request('setChatAdministratorCustomTitle', params);
+	}
+
+	setChatPermissions (params: Tgt.SetChatPermissionsParameters): Promise<true> {
+		return this.request('setChatPermissions', params);
+	}
+
+	exportChatInviteLink (params: Tgt.ExportChatInviteLinkParameters): Promise<string> {
+		return this.request('exportChatInviteLink', params);
+	}
+
+	setChatPhoto (params: Tgt.SetChatPhotoParameters): Promise<true> {
+		return this.request('setChatPhoto', params);
+	}
+
+	deleteChatPhoto (params: Tgt.DeleteChatPhotoParameters): Promise<true> {
+		return this.request('deleteChatPhoto', params);
+	}
+
+	setChatTitle (params: Tgt.SetChatTitleParameters): Promise<true> {
+		return this.request('setChatTitle', params);
+	}
+
+	setChatDescription (params: Tgt.SetChatDescriptionParameters): Promise<true> {
+		return this.request('setChatDescription', params);
+	}
+
+	pinChatMessage (params: Tgt.PinChatMessageParameters): Promise<true> {
+		return this.request('pinChatMessage', params);
+	}
+
+	unpinChatMessage (params: Tgt.UnpinChatMessageParameters): Promise<true> {
+		return this.request('unpinChatMessage', params);
+	}
+
+	unpinAllChatMessages (params: Tgt.UnpinAllChatMessagesParameters): Promise<true> {
+		return this.request('unpinAllChatMessages', params);
+	}
+
+	leaveChat (params: Tgt.LeaveChatParameters): Promise<true> {
+		return this.request('leaveChat', params);
+	}
+
+	getChat (params: Tgt.GetChatParameters): Promise<Tgt.Chat> {
+		return this.request('getChat', params);
+	}
+
+	getChatAdministrators (params: Tgt.GetChatAdministratorsParameters): Promise<Tgt.ChatMember[]> {
+		return this.request('getChatAdministrators', params);
+	}
+
+	getChatMembersCount (params: Tgt.GetChatMembersCountParameters): Promise<number> {
+		return this.request('getChatMembersCount', params);
+	}
+
+	getChatMember (params: Tgt.GetChatMemberParameters): Promise<Tgt.ChatMember> {
+		return this.request('getChatMember', params);
+	}
+
+	setChatStickerSet (params: Tgt.SetChatStickerSetParameters): Promise<true> {
+		return this.request('setChatStickerSet', params);
+	}
+
+	deleteChatStickerSet (params: Tgt.DeleteChatStickerSetParameters): Promise<true> {
+		return this.request('deleteChatStickerSet', params);
+	}
+
+	answerCallbackQuery (params: Tgt.AnswerCallbackQueryParameters): Promise<true> {
+		return this.request('answerCallbackQuery', params);
+	}
+
+	setMyCommands (params: Tgt.SetMyCommandsParameters): Promise<true> {
+		return this.request('setMyCommands', params);
 	}
 }
 
