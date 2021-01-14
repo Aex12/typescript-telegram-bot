@@ -247,6 +247,98 @@ class TelegramBot {
 	setMyCommands (params: Tgt.SetMyCommandsParameters): Promise<true> {
 		return this.request('setMyCommands', params);
 	}
+
+	getMyCommands (): Promise<Tgt.BotCommand[]> {
+		return this.request('getMyCommands');
+	}
+
+	editMessageText (params: Tgt.EditMessageTextParameters): Promise<Tgt.Message | true> {
+		return this.request('editMessageText', params);
+	}
+
+	editMessageCaption (params: Tgt.EditMessageCaptionParameters): Promise<Tgt.Message | true> {
+		return this.request('editMessageCaption', params);
+	}
+
+	editMessageMedia (params: Tgt.EditMessageMediaParameters): Promise<Tgt.Message | true> {
+		return this.request('editMessageMedia', params);
+	}
+
+	editMessageReplyMarkup (params: Tgt.EditMessageReplyMarkupParameters): Promise<Tgt.Message | true> {
+		return this.request('editMessageReplyMarkup', params);
+	}
+
+	stopPoll (params: Tgt.StopPollParameters): Promise<Tgt.Poll> {
+		return this.request('stopPoll', params);
+	}
+
+	deleteMessage (params: Tgt.DeleteMessageParameters): Promise<true> {
+		return this.request('deleteMessage', params);
+	}
+
+	sendSticker (params: Tgt.SendStickerParameters): Promise<Tgt.Message> {
+		return this.request('sendSticker', params);
+	}
+
+	getStickerSet (params: Tgt.GetStickerSetParameters): Promise<Tgt.StickerSet> {
+		return this.request('getStickerSet', params);
+	}
+
+	uploadStickerFile (params: Tgt.UploadStickerFileParameters): Promise<Tgt.File> {
+		return this.request('uploadStickerFile', params);
+	}
+
+	createNewStickerSet (params: Tgt.CreateNewStickerSetParameters): Promise<true> {
+		return this.request('createNewStickerSet', params);
+	}
+
+	addStickerToSet (params: Tgt.AddStickerToSetParameters): Promise<true> {
+		return this.request('addStickerToSet', params);
+	}
+
+	setStickerPositionInSet (params: Tgt.SetStickerPositionInSetParameters): Promise<true> {
+		return this.request('setStickerPositionInSet', params);
+	}
+
+	deleteStickerFromSet (params: Tgt.DeleteStickerFromSetParameters): Promise<true> {
+		return this.request('deleteStickerFromSet', params);
+	}
+
+	setStickerSetThumb (params: Tgt.SetStickerSetThumbParameters): Promise<true> {
+		return this.request('setStickerSetThumb', params);
+	}
+
+	answerInlineQuery (params: Tgt.AnswerInlineQueryParameters): Promise<true> {
+		return this.request('answerInlineQuery', params);
+	}
+	
+	sendInvoice (params: Tgt.SendInvoiceParameters): Promise<Tgt.Message> {
+		return this.request('sendInvoice', params);
+	}
+
+	answerShippingQuery (params: Tgt.AnswerShippingQueryParameters): Promise<true> {
+		return this.request('answerShippingQuery', params);
+	}
+
+	answerPreCheckoutQuery (params: Tgt.AnswerPreCheckoutQueryParameters): Promise<true> {
+		return this.request('answerPreCheckoutQuery', params);
+	}
+
+	setPassportDataErrors (params: Tgt.SetPassportDataErrorsParameters): Promise<true> {
+		return this.request('setPassportDataErrors', params);
+	}
+
+	sendGame (params: Tgt.SendGameParameters): Promise<Tgt.Message> {
+		return this.request('sendGame', params);
+	}
+
+	setGameScore (params: Tgt.SetGameScoreParameters): Promise<Tgt.Message | true> {
+		return this.request('setGameScore', params);
+	}
+
+	getGameHighScores (params: Tgt.GetGameHighScoresParameters): Promise<Tgt.GameHighScore[]> {
+		return this.request('getGameHighScores', params);
+	}
 }
 
 export default TelegramBot;

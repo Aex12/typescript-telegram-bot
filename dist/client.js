@@ -229,6 +229,75 @@ var TelegramBot = /** @class */ (function () {
     TelegramBot.prototype.setMyCommands = function (params) {
         return this.request('setMyCommands', params);
     };
+    TelegramBot.prototype.getMyCommands = function () {
+        return this.request('getMyCommands');
+    };
+    TelegramBot.prototype.editMessageText = function (params) {
+        return this.request('editMessageText', params);
+    };
+    TelegramBot.prototype.editMessageCaption = function (params) {
+        return this.request('editMessageCaption', params);
+    };
+    TelegramBot.prototype.editMessageMedia = function (params) {
+        return this.request('editMessageMedia', params);
+    };
+    TelegramBot.prototype.editMessageReplyMarkup = function (params) {
+        return this.request('editMessageReplyMarkup', params);
+    };
+    TelegramBot.prototype.stopPoll = function (params) {
+        return this.request('stopPoll', params);
+    };
+    TelegramBot.prototype.deleteMessage = function (params) {
+        return this.request('deleteMessage', params);
+    };
+    TelegramBot.prototype.sendSticker = function (params) {
+        return this.request('sendSticker', params);
+    };
+    TelegramBot.prototype.getStickerSet = function (params) {
+        return this.request('getStickerSet', params);
+    };
+    TelegramBot.prototype.uploadStickerFile = function (params) {
+        return this.request('uploadStickerFile', params);
+    };
+    TelegramBot.prototype.createNewStickerSet = function (params) {
+        return this.request('createNewStickerSet', params);
+    };
+    TelegramBot.prototype.addStickerToSet = function (params) {
+        return this.request('addStickerToSet', params);
+    };
+    TelegramBot.prototype.setStickerPositionInSet = function (params) {
+        return this.request('setStickerPositionInSet', params);
+    };
+    TelegramBot.prototype.deleteStickerFromSet = function (params) {
+        return this.request('deleteStickerFromSet', params);
+    };
+    TelegramBot.prototype.setStickerSetThumb = function (params) {
+        return this.request('setStickerSetThumb', params);
+    };
+    TelegramBot.prototype.answerInlineQuery = function (params) {
+        return this.request('answerInlineQuery', params);
+    };
+    TelegramBot.prototype.sendInvoice = function (params) {
+        return this.request('sendInvoice', params);
+    };
+    TelegramBot.prototype.answerShippingQuery = function (params) {
+        return this.request('answerShippingQuery', params);
+    };
+    TelegramBot.prototype.answerPreCheckoutQuery = function (params) {
+        return this.request('answerPreCheckoutQuery', params);
+    };
+    TelegramBot.prototype.setPassportDataErrors = function (params) {
+        return this.request('setPassportDataErrors', params);
+    };
+    TelegramBot.prototype.sendGame = function (params) {
+        return this.request('sendGame', params);
+    };
+    TelegramBot.prototype.setGameScore = function (params) {
+        return this.request('setGameScore', params);
+    };
+    TelegramBot.prototype.getGameHighScores = function (params) {
+        return this.request('getGameHighScores', params);
+    };
     return TelegramBot;
 }());
 exports.default = TelegramBot;
