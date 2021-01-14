@@ -1,39 +1,129 @@
-export interface TelegramUpdate {
-	update_id: number;
-	message?: TelegramMessage;
-	edited_message?: TelegramMessage;
-	channel_post?: TelegramMessage;
-	edited_channel_post?: TelegramMessage;
-	inline_query?: TelegramInlineQuery;
-	chosen_inline_result?: TelegramChosenInlineResult;
-	callback_query?: TelegramCallbackQuery;
-	shipping_query?: TelegramShippingQuery;
-	pre_checkout_query?: TelegramPreCheckoutQuery;
-	poll?: TelegramPoll;
-	poll_answer?: TelegramPollAnswer;
+// custom types
+export type InputFile = Buffer | File | string;
+
+export interface ValidResponse {
+	ok: true;
+	result: Result;
 }
 
-export interface TelegramGetUpdatesParameters {
+export interface ErrorResponse {
+	ok: false;
+	description: string;
+}
+
+export type Response = ValidResponse | ErrorResponse;
+
+export type Result = Update | User | Chat;
+
+export type RequestParameters = GetUpdatesParameters
+	| SetWebhookParameters
+	| DeleteWebhookParameters
+	| ResponseParameters
+	| CopyMessageParameters
+	| ForwardMessageParameters
+	| SendMessageParameters
+	| SendPhotoParameters
+	| SendAudioParameters
+	| SendDocumentParameters
+	| SendVideoParameters
+	| SendAnimationParameters
+	| SendVoiceParameters
+	| SendVideoNoteParameters
+	| SendMediaGroupParameters
+	| SendLocationParameters
+	| EditMessageLiveLocationParameters
+	| StopMessageLiveLocationParameters
+	| SendVenueParameters
+	| SendContactParameters
+	| SendPollParameters
+	| SendDiceParameters
+	| SendChatActionParameters
+	| GetUserProfilePhotosParameters
+	| GetFileParameters
+	| KickChatMemberParameters
+	| UnbanChatMemberParameters
+	| RestrictChatMemberParameters
+	| PromoteChatMemberParameters
+	| SetChatAdministratorCustomTitleParameters
+	| SetChatPermissionsParameters
+	| ExportChatInviteLinkParameters
+	| SetChatPhotoParameters
+	| DeleteChatPhotoParameters
+	| SetChatTitleParameters
+	| SetChatDescriptionParameters
+	| PinChatMessageParameters
+	| UnpinChatMessageParameters
+	| UnpinAllChatMessagesParameters
+	| LeaveChatParameters
+	| GetChatParameters
+	| GetChatAdministratorsParameters
+	| GetChatMembersCountParameters
+	| GetChatMemberParameters
+	| SetChatStickerSetParameters
+	| DeleteChatStickerSetParameters
+	| AnswerCallbackQueryParameters
+	| SetMyCommandsParameters
+	| EditMessageTextParameters
+	| EditMessageCaptionParameters
+	| EditMessageMediaParameters
+	| EditMessageReplyMarkupParameters
+	| StopPollParameters
+	| DeleteMessageParameters
+	| SendStickerParameters
+	| GetStickerSetParameters
+	| UploadStickerFileParameters
+	| CreateNewStickerSetParameters
+	| AddStickerToSetParameters
+	| SetStickerPositionInSetParameters
+	| DeleteStickerFromSetParameters
+	| SetStickerSetThumbParameters
+	| AnswerInlineQueryParameters
+	| SendInvoiceParameters
+	| AnswerShippingQueryParameters
+	| AnswerPreCheckoutQueryParameters
+	| SetPassportDataErrorsParameters
+	| SendGameParameters
+	| SetGameScoreParameters
+	| GetGameHighScoresParameters;
+
+//  types
+
+export interface Update {
+	update_id: number;
+	message?: Message;
+	edited_message?: Message;
+	channel_post?: Message;
+	edited_channel_post?: Message;
+	inline_query?: InlineQuery;
+	chosen_inline_result?: ChosenInlineResult;
+	callback_query?: CallbackQuery;
+	shipping_query?: ShippingQuery;
+	pre_checkout_query?: PreCheckoutQuery;
+	poll?: Poll;
+	poll_answer?: PollAnswer;
+}
+
+export interface GetUpdatesParameters {
 	offset?: number;
 	limit?: number;
 	timeout?: number;
 	allowed_updates?: string[];
 }
 
-export interface TelegramSetWebhookParameters {
+export interface SetWebhookParameters {
 	url: string;
-	certificate?: TelegramInputFile;
+	certificate?: InputFile;
 	ip_address?: string;
 	max_connections?: number;
 	allowed_updates?: string[];
 	drop_pending_updates?: boolean;
 }
 
-export interface TelegramDeleteWebhookParameters {
+export interface DeleteWebhookParameters {
 	drop_pending_updates?: boolean;
 }
 
-export interface TelegramWebhookInfo {
+export interface WebhookInfo {
 	url: string;
 	has_custom_certificate: boolean;
 	pending_update_count: number;
@@ -44,7 +134,7 @@ export interface TelegramWebhookInfo {
 	allowed_updates?: string[];
 }
 
-export interface TelegramUser {
+export interface User {
 	id: number;
 	is_bot: boolean;
 	first_name: string;
@@ -56,94 +146,94 @@ export interface TelegramUser {
 	supports_inline_queries?: boolean;
 }
 
-export interface TelegramChat {
+export interface Chat {
 	id: number;
 	type: string;
 	title?: string;
 	username?: string;
 	first_name?: string;
 	last_name?: string;
-	photo?: TelegramChatPhoto;
+	photo?: ChatPhoto;
 	bio?: string;
 	description?: string;
 	invite_link?: string;
-	pinned_message?: TelegramMessage;
-	permissions?: TelegramChatPermissions;
+	pinned_message?: Message;
+	permissions?: ChatPermissions;
 	slow_mode_delay?: number;
 	sticker_set_name?: string;
 	can_set_sticker_set?: boolean;
 	linked_chat_id?: number;
-	location?: TelegramChatLocation;
+	location?: ChatLocation;
 }
 
-export interface TelegramMessage {
+export interface Message {
 	message_id: number;
-	from?: TelegramUser;
-	sender_chat?: TelegramChat;
+	from?: User;
+	sender_chat?: Chat;
 	date: number;
-	chat: TelegramChat;
-	forward_from?: TelegramUser;
-	forward_from_chat?: TelegramChat;
+	chat: Chat;
+	forward_from?: User;
+	forward_from_chat?: Chat;
 	forward_from_message_id?: number;
 	forward_signature?: string;
 	forward_sender_name?: string;
 	forward_date?: number;
-	reply_to_message?: TelegramMessage;
-	via_bot?: TelegramUser;
+	reply_to_message?: Message;
+	via_bot?: User;
 	edit_date?: number;
 	media_group_id?: string;
 	author_signature?: string;
 	text?: string;
-	entities?: TelegramMessageEntity[];
-	animation?: TelegramAnimation;
-	audio?: TelegramAudio;
-	document?: TelegramDocument;
-	photo?: TelegramPhotoSize[];
-	sticker?: TelegramSticker;
-	video?: TelegramVideo;
-	video_note?: TelegramVideoNote;
-	voice?: TelegramVoice;
+	entities?: MessageEntity[];
+	animation?: Animation;
+	audio?: Audio;
+	document?: Document;
+	photo?: PhotoSize[];
+	sticker?: Sticker;
+	video?: Video;
+	video_note?: VideoNote;
+	voice?: Voice;
 	caption?: string;
-	caption_entities?: TelegramMessageEntity[];
-	contact?: TelegramContact;
-	dice?: TelegramDice;
-	game?: TelegramGame;
-	poll?: TelegramPoll;
-	venue?: TelegramVenue;
-	location?: TelegramLocation;
-	new_chat_members?: TelegramUser[];
-	left_chat_member?: TelegramUser;
+	caption_entities?: MessageEntity[];
+	contact?: Contact;
+	dice?: Dice;
+	game?: Game;
+	poll?: Poll;
+	venue?: Venue;
+	location?: Location;
+	new_chat_members?: User[];
+	left_chat_member?: User;
 	new_chat_title?: string;
-	new_chat_photo?: TelegramPhotoSize[];
+	new_chat_photo?: PhotoSize[];
 	delete_chat_photo?: true;
 	group_chat_created?: true;
 	supergroup_chat_created?: true;
 	channel_chat_created?: true;
 	migrate_to_chat_id?: number;
 	migrate_from_chat_id?: number;
-	pinned_message?: TelegramMessage;
-	invoice?: TelegramInvoice;
-	successful_payment?: TelegramSuccessfulPayment;
+	pinned_message?: Message;
+	invoice?: Invoice;
+	successful_payment?: SuccessfulPayment;
 	connected_website?: string;
-	passport_data?: TelegramPassportData;
-	proximity_alert_triggered?: TelegramProximityAlertTriggered;
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	passport_data?: PassportData;
+	proximity_alert_triggered?: ProximityAlertTriggered;
+	reply_markup?: InlineKeyboardMarkup;
 }
 
-export interface TelegramMessageId {
+export interface MessageId {
 	message_id: number;
 }
 
-export interface TelegramMessageEntity {
+export interface MessageEntity {
 	type: string;
 	offset: number;
 	length: number;
 	url?: string;
-	user?: TelegramUser;
+	user?: User;
 	language?: string;
 }
 
-export interface TelegramPhotoSize {
+export interface PhotoSize {
 	file_id: string;
 	file_unique_id: string;
 	width: number;
@@ -151,19 +241,19 @@ export interface TelegramPhotoSize {
 	file_size?: number;
 }
 
-export interface TelegramAnimation {
+export interface Animation {
 	file_id: string;
 	file_unique_id: string;
 	width: number;
 	height: number;
 	duration: number;
-	thumb?: TelegramPhotoSize;
+	thumb?: PhotoSize;
 	file_name?: string;
 	mime_type?: string;
 	file_size?: number;
 }
 
-export interface TelegramAudio {
+export interface Audio {
 	file_id: string;
 	file_unique_id: string;
 	duration: number;
@@ -172,40 +262,40 @@ export interface TelegramAudio {
 	file_name?: string;
 	mime_type?: string;
 	file_size?: number;
-	thumb?: TelegramPhotoSize;
+	thumb?: PhotoSize;
 }
 
-export interface TelegramDocument {
+export interface Document {
 	file_id: string;
 	file_unique_id: string;
-	thumb?: TelegramPhotoSize;
+	thumb?: PhotoSize;
 	file_name?: string;
 	mime_type?: string;
 	file_size?: number;
 }
 
-export interface TelegramVideo {
+export interface Video {
 	file_id: string;
 	file_unique_id: string;
 	width: number;
 	height: number;
 	duration: number;
-	thumb?: TelegramPhotoSize;
+	thumb?: PhotoSize;
 	file_name?: string;
 	mime_type?: string;
 	file_size?: number;
 }
 
-export interface TelegramVideoNote {
+export interface VideoNote {
 	file_id: string;
 	file_unique_id: string;
 	length: number;
 	duration: number;
-	thumb?: TelegramPhotoSize;
+	thumb?: PhotoSize;
 	file_size?: number;
 }
 
-export interface TelegramVoice {
+export interface Voice {
 	file_id: string;
 	file_unique_id: string;
 	duration: number;
@@ -213,7 +303,7 @@ export interface TelegramVoice {
 	file_size?: number;
 }
 
-export interface TelegramContact {
+export interface Contact {
 	phone_number: string;
 	first_name: string;
 	last_name?: string;
@@ -221,26 +311,26 @@ export interface TelegramContact {
 	vcard?: string;
 }
 
-export interface TelegramDice {
+export interface Dice {
 	emoji: string;
 	value: number;
 }
 
-export interface TelegramPollOption {
+export interface PollOption {
 	text: string;
 	voter_count: number;
 }
 
-export interface TelegramPollAnswer {
+export interface PollAnswer {
 	poll_id: string;
-	user: TelegramUser;
+	user: User;
 	option_ids: number[];
 }
 
-export interface TelegramPoll {
+export interface Poll {
 	id: string;
 	question: string;
-	options: TelegramPollOption[];
+	options: PollOption[];
 	total_voter_count: number;
 	is_closed: boolean;
 	is_anonymous: boolean;
@@ -248,12 +338,12 @@ export interface TelegramPoll {
 	allows_multiple_answers: boolean;
 	correct_option_id?: number;
 	explanation?: string;
-	explanation_entities?: TelegramMessageEntity[];
+	explanation_entities?: MessageEntity[];
 	open_period?: number;
 	close_date?: number;
 }
 
-export interface TelegramLocation {
+export interface Location {
 	longitude: number;
 	latitude: number;
 	horizontal_accuracy?: number;
@@ -262,8 +352,8 @@ export interface TelegramLocation {
 	proximity_alert_radius?: number;
 }
 
-export interface TelegramVenue {
-	location: TelegramLocation;
+export interface Venue {
+	location: Location;
 	title: string;
 	address: string;
 	foursquare_id?: string;
@@ -272,93 +362,93 @@ export interface TelegramVenue {
 	google_place_type?: string;
 }
 
-export interface TelegramProximityAlertTriggered {
-	traveler: TelegramUser;
-	watcher: TelegramUser;
+export interface ProximityAlertTriggered {
+	traveler: User;
+	watcher: User;
 	distance: number;
 }
 
-export interface TelegramUserProfilePhotos {
+export interface UserProfilePhotos {
 	total_count: number;
-	photos: TelegramPhotoSize[];
+	photos: PhotoSize[];
 }
 
-export interface TelegramFile {
+export interface File {
 	file_id: string;
 	file_unique_id: string;
 	file_size?: number;
 	file_path?: string;
 }
 
-export interface TelegramReplyKeyboardMarkup {
-	keyboard: TelegramKeyboardButton[];
+export interface ReplyKeyboardMarkup {
+	keyboard: KeyboardButton[];
 	resize_keyboard?: boolean;
 	one_time_keyboard?: boolean;
 	selective?: boolean;
 }
 
-export interface TelegramKeyboardButton {
+export interface KeyboardButton {
 	text: string;
 	request_contact?: boolean;
 	request_location?: boolean;
-	request_poll?: TelegramKeyboardButtonPollType;
+	request_poll?: KeyboardButtonPollType;
 }
 
-export interface TelegramKeyboardButtonPollType {
+export interface KeyboardButtonPollType {
 	type?: string;
 }
 
-export interface TelegramReplyKeyboardRemove {
+export interface ReplyKeyboardRemove {
 	remove_keyboard: true;
 	selective?: boolean;
 }
 
-export interface TelegramInlineKeyboardMarkup {
-	inline_keyboard: TelegramInlineKeyboardButton[];
+export interface InlineKeyboardMarkup {
+	inline_keyboard: InlineKeyboardButton[];
 }
 
-export interface TelegramInlineKeyboardButton {
+export interface InlineKeyboardButton {
 	text: string;
 	url?: string;
-	login_url?: TelegramLoginUrl;
+	login_url?: LoginUrl;
 	callback_data?: string;
 	switch_inline_query?: string;
 	switch_inline_query_current_chat?: string;
-	callback_game?: TelegramCallbackGame;
+	callback_game?: CallbackGame;
 	pay?: boolean;
 }
 
-export interface TelegramLoginUrl {
+export interface LoginUrl {
 	url: string;
 	forward_text?: string;
 	bot_username?: string;
 	request_write_access?: boolean;
 }
 
-export interface TelegramCallbackQuery {
+export interface CallbackQuery {
 	id: string;
-	from: TelegramUser;
-	message?: TelegramMessage;
+	from: User;
+	message?: Message;
 	inline_message_id?: string;
 	chat_instance: string;
 	data?: string;
 	game_short_name?: string;
 }
 
-export interface TelegramForceReply {
+export interface ForceReply {
 	force_reply: true;
 	selective?: boolean;
 }
 
-export interface TelegramChatPhoto {
+export interface ChatPhoto {
 	small_file_id: string;
 	small_file_unique_id: string;
 	big_file_id: string;
 	big_file_unique_id: string;
 }
 
-export interface TelegramChatMember {
-	user: TelegramUser;
+export interface ChatMember {
+	user: User;
 	status: string;
 	custom_title?: string;
 	is_anonymous?: boolean;
@@ -380,7 +470,7 @@ export interface TelegramChatMember {
 	until_date?: number;
 }
 
-export interface TelegramChatPermissions {
+export interface ChatPermissions {
 	can_send_messages?: boolean;
 	can_send_media_messages?: boolean;
 	can_send_polls?: boolean;
@@ -391,217 +481,219 @@ export interface TelegramChatPermissions {
 	can_pin_messages?: boolean;
 }
 
-export interface TelegramChatLocation {
-	location: TelegramLocation;
+export interface ChatLocation {
+	location: Location;
 	address: string;
 }
 
-export interface TelegramBotCommand {
+export interface BotCommand {
 	command: string;
 	description: string;
 }
 
-export interface TelegramResponseParameters {
+export interface ResponseParameters {
 	migrate_to_chat_id?: number;
 	retry_after?: number;
 }
 
-export interface TelegramInputMediaPhoto {
+type InputMedia = InputMediaAnimation | InputMediaDocument | InputMediaAudio | InputMediaPhoto | InputMediaVideo;
+
+export interface InputMediaPhoto {
 	type: string;
 	media: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 }
 
-export interface TelegramInputMediaVideo {
+export interface InputMediaVideo {
 	type: string;
 	media: string;
-	thumb?: TelegramInputFile | string;
+	thumb?: InputFile | string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	width?: number;
 	height?: number;
 	duration?: number;
 	supports_streaming?: boolean;
 }
 
-export interface TelegramInputMediaAnimation {
+export interface InputMediaAnimation {
 	type: string;
 	media: string;
-	thumb?: TelegramInputFile | string;
+	thumb?: InputFile | string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	width?: number;
 	height?: number;
 	duration?: number;
 }
 
-export interface TelegramInputMediaAudio {
+export interface InputMediaAudio {
 	type: string;
 	media: string;
-	thumb?: TelegramInputFile | string;
+	thumb?: InputFile | string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	duration?: number;
 	performer?: string;
 	title?: string;
 }
 
-export interface TelegramInputMediaDocument {
+export interface InputMediaDocument {
 	type: string;
 	media: string;
-	thumb?: TelegramInputFile | string;
+	thumb?: InputFile | string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	disable_content_type_detection?: boolean;
 }
 
-export interface TelegramSendMessageParameters {
+export interface SendMessageParameters {
 	chat_id: number | string;
 	text: string;
 	parse_mode?: string;
-	entities?: TelegramMessageEntity[];
+	entities?: MessageEntity[];
 	disable_web_page_preview?: boolean;
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramForwardMessageParameters {
+export interface ForwardMessageParameters {
 	chat_id: number | string;
 	from_chat_id: number | string;
 	disable_notification?: boolean;
 	message_id: number;
 }
 
-export interface TelegramCopyMessageParameters {
+export interface CopyMessageParameters {
 	chat_id: number | string;
 	from_chat_id: number | string;
 	message_id: number;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendPhotoParameters {
+export interface SendPhotoParameters {
 	chat_id: number | string;
-	photo: TelegramInputFile | string;
+	photo: InputFile | string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendAudioParameters {
+export interface SendAudioParameters {
 	chat_id: number | string;
-	audio: TelegramInputFile | string;
+	audio: InputFile | string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	duration?: number;
 	performer?: string;
 	title?: string;
-	thumb?: TelegramInputFile | string;
+	thumb?: InputFile | string;
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendDocumentParameters {
+export interface SendDocumentParameters {
 	chat_id: number | string;
-	document: TelegramInputFile | string;
-	thumb?: TelegramInputFile | string;
+	document: InputFile | string;
+	thumb?: InputFile | string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	disable_content_type_detection?: boolean;
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendVideoParameters {
+export interface SendVideoParameters {
 	chat_id: number | string;
-	video: TelegramInputFile | string;
+	video: InputFile | string;
 	duration?: number;
 	width?: number;
 	height?: number;
-	thumb?: TelegramInputFile | string;
+	thumb?: InputFile | string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	supports_streaming?: boolean;
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendAnimationParameters {
+export interface SendAnimationParameters {
 	chat_id: number | string;
-	animation: TelegramInputFile | string;
+	animation: InputFile | string;
 	duration?: number;
 	width?: number;
 	height?: number;
-	thumb?: TelegramInputFile | string;
+	thumb?: InputFile | string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendVoiceParameters {
+export interface SendVoiceParameters {
 	chat_id: number | string;
-	voice: TelegramInputFile | string;
+	voice: InputFile | string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	duration?: number;
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendVideoNoteParameters {
+export interface SendVideoNoteParameters {
 	chat_id: number | string;
-	video_note: TelegramInputFile | string;
+	video_note: InputFile | string;
 	duration?: number;
 	length?: number;
-	thumb?: TelegramInputFile | string;
+	thumb?: InputFile | string;
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendMediaGroupParameters {
+export interface SendMediaGroupParameters {
 	chat_id: number | string;
-	media: Array<TelegramInputMediaAudio | TelegramInputMediaDocument | TelegramInputMediaPhoto | TelegramInputMediaVideo>;
+	media: Array<InputMediaAudio | InputMediaDocument | InputMediaPhoto | InputMediaVideo>;
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
 }
 
-export interface TelegramSendLocationParameters {
+export interface SendLocationParameters {
 	chat_id: number | string;
 	latitude: number;
 	longitude: number;
@@ -612,10 +704,10 @@ export interface TelegramSendLocationParameters {
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramEditMessageLiveLocationParameters {
+export interface EditMessageLiveLocationParameters {
 	chat_id?: number | string;
 	message_id?: number;
 	inline_message_id?: string;
@@ -624,17 +716,17 @@ export interface TelegramEditMessageLiveLocationParameters {
 	horizontal_accuracy?: number;
 	heading?: number;
 	proximity_alert_radius?: number;
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	reply_markup?: InlineKeyboardMarkup;
 }
 
-export interface TelegramStopMessageLiveLocationParameters {
+export interface StopMessageLiveLocationParameters {
 	chat_id?: number | string;
 	message_id?: number;
 	inline_message_id?: string;
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	reply_markup?: InlineKeyboardMarkup;
 }
 
-export interface TelegramSendVenueParameters {
+export interface SendVenueParameters {
 	chat_id: number | string;
 	latitude: number;
 	longitude: number;
@@ -647,10 +739,10 @@ export interface TelegramSendVenueParameters {
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendContactParameters {
+export interface SendContactParameters {
 	chat_id: number | string;
 	phone_number: string;
 	first_name: string;
@@ -659,10 +751,10 @@ export interface TelegramSendContactParameters {
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendPollParameters {
+export interface SendPollParameters {
 	chat_id: number | string;
 	question: string;
 	options: string[];
@@ -672,60 +764,60 @@ export interface TelegramSendPollParameters {
 	correct_option_id?: number;
 	explanation?: string;
 	explanation_parse_mode?: string;
-	explanation_entities?: TelegramMessageEntity[];
+	explanation_entities?: MessageEntity[];
 	open_period?: number;
 	close_date?: number;
 	is_closed?: boolean;
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendDiceParameters {
+export interface SendDiceParameters {
 	chat_id: number | string;
 	emoji?: string;
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramSendChatActionParameters {
+export interface SendChatActionParameters {
 	chat_id: number | string;
 	action: string;
 }
 
-export interface TelegramGetUserProfilePhotosParameters {
+export interface GetUserProfilePhotosParameters {
 	user_id: number;
 	offset?: number;
 	limit?: number;
 }
 
-export interface TelegramGetFileParameters {
+export interface GetFileParameters {
 	file_id: string;
 }
 
-export interface TelegramKickChatMemberParameters {
+export interface KickChatMemberParameters {
 	chat_id: number | string;
 	user_id: number;
 	until_date?: number;
 }
 
-export interface TelegramUnbanChatMemberParameters {
+export interface UnbanChatMemberParameters {
 	chat_id: number | string;
 	user_id: number;
 	only_if_banned?: boolean;
 }
 
-export interface TelegramRestrictChatMemberParameters {
+export interface RestrictChatMemberParameters {
 	chat_id: number | string;
 	user_id: number;
-	permissions: TelegramChatPermissions;
+	permissions: ChatPermissions;
 	until_date?: number;
 }
 
-export interface TelegramPromoteChatMemberParameters {
+export interface PromoteChatMemberParameters {
 	chat_id: number | string;
 	user_id: number;
 	is_anonymous?: boolean;
@@ -739,86 +831,86 @@ export interface TelegramPromoteChatMemberParameters {
 	can_promote_members?: boolean;
 }
 
-export interface TelegramSetChatAdministratorCustomTitleParameters {
+export interface SetChatAdministratorCustomTitleParameters {
 	chat_id: number | string;
 	user_id: number;
 	custom_title: string;
 }
 
-export interface TelegramSetChatPermissionsParameters {
+export interface SetChatPermissionsParameters {
 	chat_id: number | string;
-	permissions: TelegramChatPermissions;
+	permissions: ChatPermissions;
 }
 
-export interface TelegramExportChatInviteLinkParameters {
-	chat_id: number | string;
-}
-
-export interface TelegramSetChatPhotoParameters {
-	chat_id: number | string;
-	photo: TelegramInputFile;
-}
-
-export interface TelegramDeleteChatPhotoParameters {
+export interface ExportChatInviteLinkParameters {
 	chat_id: number | string;
 }
 
-export interface TelegramSetChatTitleParameters {
+export interface SetChatPhotoParameters {
+	chat_id: number | string;
+	photo: InputFile;
+}
+
+export interface DeleteChatPhotoParameters {
+	chat_id: number | string;
+}
+
+export interface SetChatTitleParameters {
 	chat_id: number | string;
 	title: string;
 }
 
-export interface TelegramSetChatDescriptionParameters {
+export interface SetChatDescriptionParameters {
 	chat_id: number | string;
 	description?: string;
 }
 
-export interface TelegramPinChatMessageParameters {
+export interface PinChatMessageParameters {
 	chat_id: number | string;
 	message_id: number;
 	disable_notification?: boolean;
 }
 
-export interface TelegramUnpinChatMessageParameters {
+export interface UnpinChatMessageParameters {
 	chat_id: number | string;
 	message_id?: number;
 }
 
-export interface TelegramUnpinAllChatMessagesParameters {
+export interface UnpinAllChatMessagesParameters {
 	chat_id: number | string;
 }
 
-export interface TelegramLeaveChatParameters {
+export interface LeaveChatParameters {
 	chat_id: number | string;
 }
 
-export interface TelegramGetChatParameters {
+export interface GetChatParameters {
 	chat_id: number | string;
 }
 
-export interface TelegramGetChatAdministratorsParameters {
+export interface GetChatAdministratorsParameters {
 	chat_id: number | string;
 }
 
-export interface TelegramGetChatMembersCountParameters {
+export interface GetChatMembersCountParameters {
 	chat_id: number | string;
 }
 
-export interface TelegramGetChatMemberParameters {
+export interface GetChatMemberParameters {
 	chat_id: number | string;
 	user_id: number;
 }
 
-export interface TelegramSetChatStickerSetParameters {
+export interface SetChatStickerSetParameters {
 	chat_id: number | string;
 	sticker_set_name: string;
 }
 
-export interface TelegramDeleteChatStickerSetParameters {
+export interface DeleteChatStickerSetParameters {
 	chat_id: number | string;
 }
 
-export interface TelegramAnswerCallbackQueryParameters {
+export interface AnswerCallbackQueryParameters {
 	callback_query_id: string;
 	text?: string;
 	show_alert?: boolean;
@@ -826,150 +918,150 @@ export interface TelegramAnswerCallbackQueryParameters {
 	cache_time?: number;
 }
 
-export interface TelegramSetMyCommandsParameters {
-	commands: TelegramBotCommand[];
+export interface SetMyCommandsParameters {
+	commands: BotCommand[];
 }
 
-export interface TelegramEditMessageTextParameters {
+export interface EditMessageTextParameters {
 	chat_id?: number | string;
 	message_id?: number;
 	inline_message_id?: string;
 	text: string;
 	parse_mode?: string;
-	entities?: TelegramMessageEntity[];
+	entities?: MessageEntity[];
 	disable_web_page_preview?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	reply_markup?: InlineKeyboardMarkup;
 }
 
-export interface TelegramEditMessageCaptionParameters {
+export interface EditMessageCaptionParameters {
 	chat_id?: number | string;
 	message_id?: number;
 	inline_message_id?: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	caption_entities?: MessageEntity[];
+	reply_markup?: InlineKeyboardMarkup;
 }
 
-export interface TelegramEditMessageMediaParameters {
+export interface EditMessageMediaParameters {
 	chat_id?: number | string;
 	message_id?: number;
 	inline_message_id?: string;
-	media: TelegramInputMedia;
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	media: InputMedia;
+	reply_markup?: InlineKeyboardMarkup;
 }
 
-export interface TelegramEditMessageReplyMarkupParameters {
+export interface EditMessageReplyMarkupParameters {
 	chat_id?: number | string;
 	message_id?: number;
 	inline_message_id?: string;
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	reply_markup?: InlineKeyboardMarkup;
 }
 
-export interface TelegramStopPollParameters {
+export interface StopPollParameters {
 	chat_id: number | string;
 	message_id: number;
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	reply_markup?: InlineKeyboardMarkup;
 }
 
-export interface TelegramDeleteMessageParameters {
+export interface DeleteMessageParameters {
 	chat_id: number | string;
 	message_id: number;
 }
 
-export interface TelegramSticker {
+export interface Sticker {
 	file_id: string;
 	file_unique_id: string;
 	width: number;
 	height: number;
 	is_animated: boolean;
-	thumb?: TelegramPhotoSize;
+	thumb?: PhotoSize;
 	emoji?: string;
 	set_name?: string;
-	mask_position?: TelegramMaskPosition;
+	mask_position?: MaskPosition;
 	file_size?: number;
 }
 
-export interface TelegramStickerSet {
+export interface StickerSet {
 	name: string;
 	title: string;
 	is_animated: boolean;
 	contains_masks: boolean;
-	stickers: TelegramSticker[];
-	thumb?: TelegramPhotoSize;
+	stickers: Sticker[];
+	thumb?: PhotoSize;
 }
 
-export interface TelegramMaskPosition {
+export interface MaskPosition {
 	point: string;
 	x_shift: number;
 	y_shift: number;
 	scale: number;
 }
 
-export interface TelegramSendStickerParameters {
+export interface SendStickerParameters {
 	chat_id: number | string;
-	sticker: TelegramInputFile | string;
+	sticker: InputFile | string;
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup | TelegramReplyKeyboardMarkup | TelegramReplyKeyboardRemove | TelegramForceReply;
+	reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;
 }
 
-export interface TelegramGetStickerSetParameters {
+export interface GetStickerSetParameters {
 	name: string;
 }
 
-export interface TelegramUploadStickerFileParameters {
+export interface UploadStickerFileParameters {
 	user_id: number;
-	png_sticker: TelegramInputFile;
+	png_sticker: InputFile;
 }
 
-export interface TelegramCreateNewStickerSetParameters {
+export interface CreateNewStickerSetParameters {
 	user_id: number;
 	name: string;
 	title: string;
-	png_sticker?: TelegramInputFile | string;
-	tgs_sticker?: TelegramInputFile;
+	png_sticker?: InputFile | string;
+	tgs_sticker?: InputFile;
 	emojis: string;
 	contains_masks?: boolean;
-	mask_position?: TelegramMaskPosition;
+	mask_position?: MaskPosition;
 }
 
-export interface TelegramAddStickerToSetParameters {
+export interface AddStickerToSetParameters {
 	user_id: number;
 	name: string;
-	png_sticker?: TelegramInputFile | string;
-	tgs_sticker?: TelegramInputFile;
+	png_sticker?: InputFile | string;
+	tgs_sticker?: InputFile;
 	emojis: string;
-	mask_position?: TelegramMaskPosition;
+	mask_position?: MaskPosition;
 }
 
-export interface TelegramSetStickerPositionInSetParameters {
+export interface SetStickerPositionInSetParameters {
 	sticker: string;
 	position: number;
 }
 
-export interface TelegramDeleteStickerFromSetParameters {
+export interface DeleteStickerFromSetParameters {
 	sticker: string;
 }
 
-export interface TelegramSetStickerSetThumbParameters {
+export interface SetStickerSetThumbParameters {
 	name: string;
 	user_id: number;
-	thumb?: TelegramInputFile | string;
+	thumb?: InputFile | string;
 }
 
-export interface TelegramInlineQuery {
+export interface InlineQuery {
 	id: string;
-	from: TelegramUser;
-	location?: TelegramLocation;
+	from: User;
+	location?: Location;
 	query: string;
 	offset: string;
 }
 
-export interface TelegramAnswerInlineQueryParameters {
+export interface AnswerInlineQueryParameters {
 	inline_query_id: string;
-	results: TelegramInlineQueryResult[];
+	results: InlineQueryResult[];
 	cache_time?: number;
 	is_personal?: boolean;
 	next_offset?: string;
@@ -977,15 +1069,15 @@ export interface TelegramAnswerInlineQueryParameters {
 	switch_pm_parameter?: string;
 }
 
-export type TelegramInlineQueryResult = TelegramInlineQueryResultCachedAudio | TelegramInlineQueryResultCachedDocument | TelegramInlineQueryResultCachedGif | TelegramInlineQueryResultCachedMpeg4Gif | TelegramInlineQueryResultCachedPhoto | TelegramInlineQueryResultCachedSticker | TelegramInlineQueryResultCachedVideo | TelegramInlineQueryResultCachedVoice | TelegramInlineQueryResultArticle | TelegramInlineQueryResultAudio | TelegramInlineQueryResultContact | TelegramInlineQueryResultGame | TelegramInlineQueryResultDocument | TelegramInlineQueryResultGif | TelegramInlineQueryResultLocation | TelegramInlineQueryResultMpeg4Gif | TelegramInlineQueryResultPhoto | TelegramInlineQueryResultVenue | TelegramInlineQueryResultVideo | TelegramInlineQueryResultVoice;
+export type InlineQueryResult = InlineQueryResultCachedAudio | InlineQueryResultCachedDocument | InlineQueryResultCachedGif | InlineQueryResultCachedMpeg4Gif | InlineQueryResultCachedPhoto | InlineQueryResultCachedSticker | InlineQueryResultCachedVideo | InlineQueryResultCachedVoice | InlineQueryResultArticle | InlineQueryResultAudio | InlineQueryResultContact | InlineQueryResultGame | InlineQueryResultDocument | InlineQueryResultGif | InlineQueryResultLocation | InlineQueryResultMpeg4Gif | InlineQueryResultPhoto | InlineQueryResultVenue | InlineQueryResultVideo | InlineQueryResultVoice;
 
 
-export interface TelegramInlineQueryResultArticle {
+export interface InlineQueryResultArticle {
 	type: string;
 	id: string;
 	title: string;
-	input_message_content: TelegramInputMessageContent;
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	input_message_content: InputMessageContent;
+	reply_markup?: InlineKeyboardMarkup;
 	url?: string;
 	hide_url?: boolean;
 	description?: string;
@@ -994,7 +1086,7 @@ export interface TelegramInlineQueryResultArticle {
 	thumb_height?: number;
 }
 
-export interface TelegramInlineQueryResultPhoto {
+export interface InlineQueryResultPhoto {
 	type: string;
 	id: string;
 	photo_url: string;
@@ -1005,12 +1097,12 @@ export interface TelegramInlineQueryResultPhoto {
 	description?: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	caption_entities?: MessageEntity[];
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultGif {
+export interface InlineQueryResultGif {
 	type: string;
 	id: string;
 	gif_url: string;
@@ -1022,12 +1114,12 @@ export interface TelegramInlineQueryResultGif {
 	title?: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	caption_entities?: MessageEntity[];
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultMpeg4Gif {
+export interface InlineQueryResultMpeg4Gif {
 	type: string;
 	id: string;
 	mpeg4_url: string;
@@ -1039,12 +1131,12 @@ export interface TelegramInlineQueryResultMpeg4Gif {
 	title?: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	caption_entities?: MessageEntity[];
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultVideo {
+export interface InlineQueryResultVideo {
 	type: string;
 	id: string;
 	video_url: string;
@@ -1053,60 +1145,60 @@ export interface TelegramInlineQueryResultVideo {
 	title: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	video_width?: number;
 	video_height?: number;
 	video_duration?: number;
 	description?: string;
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultAudio {
+export interface InlineQueryResultAudio {
 	type: string;
 	id: string;
 	audio_url: string;
 	title: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	performer?: string;
 	audio_duration?: number;
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultVoice {
+export interface InlineQueryResultVoice {
 	type: string;
 	id: string;
 	voice_url: string;
 	title: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	voice_duration?: number;
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultDocument {
+export interface InlineQueryResultDocument {
 	type: string;
 	id: string;
 	title: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
+	caption_entities?: MessageEntity[];
 	document_url: string;
 	mime_type: string;
 	description?: string;
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 	thumb_url?: string;
 	thumb_width?: number;
 	thumb_height?: number;
 }
 
-export interface TelegramInlineQueryResultLocation {
+export interface InlineQueryResultLocation {
 	type: string;
 	id: string;
 	latitude: number;
@@ -1116,14 +1208,14 @@ export interface TelegramInlineQueryResultLocation {
 	live_period?: number;
 	heading?: number;
 	proximity_alert_radius?: number;
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 	thumb_url?: string;
 	thumb_width?: number;
 	thumb_height?: number;
 }
 
-export interface TelegramInlineQueryResultVenue {
+export interface InlineQueryResultVenue {
 	type: string;
 	id: string;
 	latitude: number;
@@ -1134,35 +1226,35 @@ export interface TelegramInlineQueryResultVenue {
 	foursquare_type?: string;
 	google_place_id?: string;
 	google_place_type?: string;
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 	thumb_url?: string;
 	thumb_width?: number;
 	thumb_height?: number;
 }
 
-export interface TelegramInlineQueryResultContact {
+export interface InlineQueryResultContact {
 	type: string;
 	id: string;
 	phone_number: string;
 	first_name: string;
 	last_name?: string;
 	vcard?: string;
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 	thumb_url?: string;
 	thumb_width?: number;
 	thumb_height?: number;
 }
 
-export interface TelegramInlineQueryResultGame {
+export interface InlineQueryResultGame {
 	type: string;
 	id: string;
 	game_short_name: string;
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	reply_markup?: InlineKeyboardMarkup;
 }
 
-export interface TelegramInlineQueryResultCachedPhoto {
+export interface InlineQueryResultCachedPhoto {
 	type: string;
 	id: string;
 	photo_file_id: string;
@@ -1170,44 +1262,44 @@ export interface TelegramInlineQueryResultCachedPhoto {
 	description?: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	caption_entities?: MessageEntity[];
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultCachedGif {
+export interface InlineQueryResultCachedGif {
 	type: string;
 	id: string;
 	gif_file_id: string;
 	title?: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	caption_entities?: MessageEntity[];
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultCachedMpeg4Gif {
+export interface InlineQueryResultCachedMpeg4Gif {
 	type: string;
 	id: string;
 	mpeg4_file_id: string;
 	title?: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	caption_entities?: MessageEntity[];
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultCachedSticker {
+export interface InlineQueryResultCachedSticker {
 	type: string;
 	id: string;
 	sticker_file_id: string;
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultCachedDocument {
+export interface InlineQueryResultCachedDocument {
 	type: string;
 	id: string;
 	title: string;
@@ -1215,12 +1307,12 @@ export interface TelegramInlineQueryResultCachedDocument {
 	description?: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	caption_entities?: MessageEntity[];
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultCachedVideo {
+export interface InlineQueryResultCachedVideo {
 	type: string;
 	id: string;
 	video_file_id: string;
@@ -1228,44 +1320,44 @@ export interface TelegramInlineQueryResultCachedVideo {
 	description?: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	caption_entities?: MessageEntity[];
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultCachedVoice {
+export interface InlineQueryResultCachedVoice {
 	type: string;
 	id: string;
 	voice_file_id: string;
 	title: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	caption_entities?: MessageEntity[];
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export interface TelegramInlineQueryResultCachedAudio {
+export interface InlineQueryResultCachedAudio {
 	type: string;
 	id: string;
 	audio_file_id: string;
 	caption?: string;
 	parse_mode?: string;
-	caption_entities?: TelegramMessageEntity[];
-	reply_markup?: TelegramInlineKeyboardMarkup;
-	input_message_content?: TelegramInputMessageContent;
+	caption_entities?: MessageEntity[];
+	reply_markup?: InlineKeyboardMarkup;
+	input_message_content?: InputMessageContent;
 }
 
-export type TelegramInputMessageContent = TelegramInputTextMessageContent | TelegramInputLocationMessageContent | TelegramInputVenueMessageContent | TelegramInputContactMessageContent;
+export type InputMessageContent = InputTextMessageContent | InputLocationMessageContent | InputVenueMessageContent | InputContactMessageContent;
 
-export interface TelegramInputTextMessageContent {
+export interface InputTextMessageContent {
 	message_text: string;
 	parse_mode?: string;
-	entities?: TelegramMessageEntity[];
+	entities?: MessageEntity[];
 	disable_web_page_preview?: boolean;
 }
 
-export interface TelegramInputLocationMessageContent {
+export interface InputLocationMessageContent {
 	latitude: number;
 	longitude: number;
 	horizontal_accuracy?: number;
@@ -1274,7 +1366,7 @@ export interface TelegramInputLocationMessageContent {
 	proximity_alert_radius?: number;
 }
 
-export interface TelegramInputVenueMessageContent {
+export interface InputVenueMessageContent {
 	latitude: number;
 	longitude: number;
 	title: string;
@@ -1285,22 +1377,22 @@ export interface TelegramInputVenueMessageContent {
 	google_place_type?: string;
 }
 
-export interface TelegramInputContactMessageContent {
+export interface InputContactMessageContent {
 	phone_number: string;
 	first_name: string;
 	last_name?: string;
 	vcard?: string;
 }
 
-export interface TelegramChosenInlineResult {
+export interface ChosenInlineResult {
 	result_id: string;
-	from: TelegramUser;
-	location?: TelegramLocation;
+	from: User;
+	location?: Location;
 	inline_message_id?: string;
 	query: string;
 }
 
-export interface TelegramSendInvoiceParameters {
+export interface SendInvoiceParameters {
 	chat_id: number;
 	title: string;
 	description: string;
@@ -1308,7 +1400,7 @@ export interface TelegramSendInvoiceParameters {
 	provider_token: string;
 	start_parameter: string;
 	currency: string;
-	prices: TelegramLabeledPrice[];
+	prices: LabeledPrice[];
 	provider_data?: string;
 	photo_url?: string;
 	photo_size?: number;
@@ -1324,28 +1416,28 @@ export interface TelegramSendInvoiceParameters {
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	reply_markup?: InlineKeyboardMarkup;
 }
 
-export interface TelegramAnswerShippingQueryParameters {
+export interface AnswerShippingQueryParameters {
 	shipping_query_id: string;
 	ok: boolean;
-	shipping_options?: TelegramShippingOption[];
+	shipping_options?: ShippingOption[];
 	error_message?: string;
 }
 
-export interface TelegramAnswerPreCheckoutQueryParameters {
+export interface AnswerPreCheckoutQueryParameters {
 	pre_checkout_query_id: string;
 	ok: boolean;
 	error_message?: string;
 }
 
-export interface TelegramLabeledPrice {
+export interface LabeledPrice {
 	label: string;
 	amount: number;
 }
 
-export interface TelegramInvoice {
+export interface Invoice {
 	title: string;
 	description: string;
 	start_parameter: string;
@@ -1353,7 +1445,7 @@ export interface TelegramInvoice {
 	total_amount: number;
 }
 
-export interface TelegramShippingAddress {
+export interface ShippingAddress {
 	country_code: string;
 	state: string;
 	city: string;
@@ -1362,85 +1454,85 @@ export interface TelegramShippingAddress {
 	post_code: string;
 }
 
-export interface TelegramOrderInfo {
+export interface OrderInfo {
 	name?: string;
 	phone_number?: string;
 	email?: string;
-	shipping_address?: TelegramShippingAddress;
+	shipping_address?: ShippingAddress;
 }
 
-export interface TelegramShippingOption {
+export interface ShippingOption {
 	id: string;
 	title: string;
-	prices: TelegramLabeledPrice[];
+	prices: LabeledPrice[];
 }
 
-export interface TelegramSuccessfulPayment {
+export interface SuccessfulPayment {
 	currency: string;
 	total_amount: number;
 	invoice_payload: string;
 	shipping_option_id?: string;
-	order_info?: TelegramOrderInfo;
+	order_info?: OrderInfo;
 	telegram_payment_charge_id: string;
 	provider_payment_charge_id: string;
 }
 
-export interface TelegramShippingQuery {
+export interface ShippingQuery {
 	id: string;
-	from: TelegramUser;
+	from: User;
 	invoice_payload: string;
-	shipping_address: TelegramShippingAddress;
+	shipping_address: ShippingAddress;
 }
 
-export interface TelegramPreCheckoutQuery {
+export interface PreCheckoutQuery {
 	id: string;
-	from: TelegramUser;
+	from: User;
 	currency: string;
 	total_amount: number;
 	invoice_payload: string;
 	shipping_option_id?: string;
-	order_info?: TelegramOrderInfo;
+	order_info?: OrderInfo;
 }
 
-export interface TelegramPassportData {
-	data: TelegramEncryptedPassportElement[];
-	credentials: TelegramEncryptedCredentials;
+export interface PassportData {
+	data: EncryptedPassportElement[];
+	credentials: EncryptedCredentials;
 }
 
-export interface TelegramPassportFile {
+export interface PassportFile {
 	file_id: string;
 	file_unique_id: string;
 	file_size: number;
 	file_date: number;
 }
 
-export interface TelegramEncryptedPassportElement {
+export interface EncryptedPassportElement {
 	type: string;
 	data?: string;
 	phone_number?: string;
 	email?: string;
-	files?: TelegramPassportFile[];
-	front_side?: TelegramPassportFile;
-	reverse_side?: TelegramPassportFile;
-	selfie?: TelegramPassportFile;
-	translation?: TelegramPassportFile[];
+	files?: PassportFile[];
+	front_side?: PassportFile;
+	reverse_side?: PassportFile;
+	selfie?: PassportFile;
+	translation?: PassportFile[];
 	hash: string;
 }
 
-export interface TelegramEncryptedCredentials {
+export interface EncryptedCredentials {
 	data: string;
 	hash: string;
 	secret: string;
 }
 
-export interface TelegramSetPassportDataErrorsParameters {
+export interface SetPassportDataErrorsParameters {
 	user_id: number;
-	errors: TelegramPassportElementError[];
+	errors: PassportElementError[];
 }
 
-export type TelegramPassportElementError = TelegramPassportElementErrorDataField | TelegramPassportElementErrorDataField | TelegramPassportElementErrorFrontSide | TelegramPassportElementErrorReverseSide | TelegramPassportElementErrorSelfie | TelegramPassportElementErrorFile | TelegramPassportElementErrorFiles | TelegramPassportElementErrorTranslationFile | TelegramPassportElementErrorTranslationFiles | TelegramPassportElementErrorUnspecified;
+export type PassportElementError = PassportElementErrorDataField | PassportElementErrorDataField | PassportElementErrorFrontSide | PassportElementErrorReverseSide | PassportElementErrorSelfie | PassportElementErrorFile | PassportElementErrorFiles | PassportElementErrorTranslationFile | PassportElementErrorTranslationFiles | PassportElementErrorUnspecified;
 
-export interface TelegramPassportElementErrorDataField {
+export interface PassportElementErrorDataField {
 	source: string;
 	type: string;
 	field_name: string;
@@ -1448,83 +1540,83 @@ export interface TelegramPassportElementErrorDataField {
 	message: string;
 }
 
-export interface TelegramPassportElementErrorFrontSide {
+export interface PassportElementErrorFrontSide {
 	source: string;
 	type: string;
 	file_hash: string;
 	message: string;
 }
 
-export interface TelegramPassportElementErrorReverseSide {
+export interface PassportElementErrorReverseSide {
 	source: string;
 	type: string;
 	file_hash: string;
 	message: string;
 }
 
-export interface TelegramPassportElementErrorSelfie {
+export interface PassportElementErrorSelfie {
 	source: string;
 	type: string;
 	file_hash: string;
 	message: string;
 }
 
-export interface TelegramPassportElementErrorFile {
+export interface PassportElementErrorFile {
 	source: string;
 	type: string;
 	file_hash: string;
 	message: string;
 }
 
-export interface TelegramPassportElementErrorFiles {
+export interface PassportElementErrorFiles {
 	source: string;
 	type: string;
 	file_hashes: string[];
 	message: string;
 }
 
-export interface TelegramPassportElementErrorTranslationFile {
+export interface PassportElementErrorTranslationFile {
 	source: string;
 	type: string;
 	file_hash: string;
 	message: string;
 }
 
-export interface TelegramPassportElementErrorTranslationFiles {
+export interface PassportElementErrorTranslationFiles {
 	source: string;
 	type: string;
 	file_hashes: string[];
 	message: string;
 }
 
-export interface TelegramPassportElementErrorUnspecified {
+export interface PassportElementErrorUnspecified {
 	source: string;
 	type: string;
 	element_hash: string;
 	message: string;
 }
 
-export interface TelegramSendGameParameters {
+export interface SendGameParameters {
 	chat_id: number;
 	game_short_name: string;
 	disable_notification?: boolean;
 	reply_to_message_id?: number;
 	allow_sending_without_reply?: boolean;
-	reply_markup?: TelegramInlineKeyboardMarkup;
+	reply_markup?: InlineKeyboardMarkup;
 }
 
-export interface TelegramGame {
+export interface Game {
 	title: string;
 	description: string;
-	photo: TelegramPhotoSize[];
+	photo: PhotoSize[];
 	text?: string;
-	text_entities?: TelegramMessageEntity[];
-	animation?: TelegramAnimation;
+	text_entities?: MessageEntity[];
+	animation?: Animation;
 }
 
-export type TelegramCallbackGame = unknown;
+export type CallbackGame = unknown;
 
-export interface TelegramSetGameScoreParameters {
+export interface SetGameScoreParameters {
 	user_id: number;
 	score: number;
 	force?: boolean;
@@ -1534,15 +1626,15 @@ export interface TelegramSetGameScoreParameters {
 	inline_message_id?: string;
 }
 
-export interface TelegramGetGameHighScoresParameters {
+export interface GetGameHighScoresParameters {
 	user_id: number;
 	chat_id?: number;
 	message_id?: number;
 	inline_message_id?: string;
 }
 
-export interface TelegramGameHighScore {
+export interface GameHighScore {
 	position: number;
-	user: TelegramUser;
+	user: User;
 	score: number;
 }
