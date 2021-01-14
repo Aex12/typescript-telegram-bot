@@ -34,23 +34,22 @@ class TelegramBot {
 		});
 	}
 
-	async request (endpoint: string, params?: Tgt.RequestParameters): Promise<Tgt.Response> {
-		const body = await this.client.post(endpoint, { json: params }).json<Tgt.Response>();
+	async request<T> (endpoint: string, params?: Tgt.RequestParameters): Promise<T> {
+		const body = await this.client.post(endpoint, { json: params }).json<Tgt.Response<T>>();
 
 		if (body.ok) {
-			return body;
+			return body.result;
 		}
 
 		throw new Error(body.description);
 	}
 
-	async getUpdates (params?: Tgt.GetUpdatesParameters): Promise<Tgt.Update> {
-		const result = await this.request('getUpdates', params);
-		return result.result;
+	getUpdates (params?: Tgt.GetUpdatesParameters): Promise<Tgt.Update[]> {
+		return this.request<Tgt.Update[]>('getUpdates', params);
 	}
 
 	getMe (): Promise<Tgt.User> {
-		return this.request('getMe');
+		return this.request<Tgt.User>('getMe');
 	}
 }
 

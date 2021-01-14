@@ -1,9 +1,9 @@
 // custom types
 export type InputFile = Buffer | File | string;
 
-export interface ValidResponse {
+export interface ValidResponse<T> {
 	ok: true;
-	result: Result;
+	result: T;
 }
 
 export interface ErrorResponse {
@@ -11,7 +11,7 @@ export interface ErrorResponse {
 	description: string;
 }
 
-export type Response = ValidResponse | ErrorResponse;
+export type Response<T> = ValidResponse<T> | ErrorResponse;
 
 export type Result = Update | User | Chat;
 

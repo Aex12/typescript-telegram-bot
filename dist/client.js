@@ -69,7 +69,7 @@ var TelegramBot = /** @class */ (function () {
                     case 1:
                         body = _a.sent();
                         if (body.ok) {
-                            return [2 /*return*/, body];
+                            return [2 /*return*/, body.result];
                         }
                         throw new Error(body.description);
                 }
@@ -77,17 +77,7 @@ var TelegramBot = /** @class */ (function () {
         });
     };
     TelegramBot.prototype.getUpdates = function (params) {
-        return __awaiter(this, void 0, void 0, function () {
-            var result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.request('getUpdates', params)];
-                    case 1:
-                        result = _a.sent();
-                        return [2 /*return*/, result.result];
-                }
-            });
-        });
+        return this.request('getUpdates', params);
     };
     TelegramBot.prototype.getMe = function () {
         return this.request('getMe');
