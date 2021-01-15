@@ -35,40 +35,85 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TelegramClient = void 0;
-var got_1 = __importDefault(require("got"));
+var undici_1 = require("undici");
 var TelegramClient = /** @class */ (function () {
     function TelegramClient(config) {
-        this.BASE_URL = 'https://api.telegram.org/';
+        this.BASE_URL = 'https://api.telegram.org';
         this.token = config.token;
         if (config.baseUrl) {
             this.BASE_URL = config.baseUrl;
         }
-        this.client = got_1.default.extend({
-            prefixUrl: this.BASE_URL + "bot" + this.token + "/",
-            timeout: 35 * 1000,
-            responseType: 'json',
-            headers: {
-                'user-agent': 'TypescriptTelegramBot/0.0.1',
-            },
-        });
+        this.httpClient = new undici_1.Client(this.BASE_URL);
     }
     TelegramClient.prototype.request = function (endpoint, params) {
+        var e_1, _a;
         return __awaiter(this, void 0, void 0, function () {
-            var body;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.client.post(endpoint, { json: params }).json()];
+            var query, queryString, _b, statusCode, body, data, body_1, body_1_1, chunk, e_1_1, result;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        console.log({ endpoint: endpoint, params: params });
+                        query = new URLSearchParams(params);
+                        queryString = query.toString();
+                        return [4 /*yield*/, this.httpClient
+                                .request({
+                                path: "/bot" + this.token + "/" + endpoint + "?" + queryString,
+                                method: 'GET',
+                            })];
                     case 1:
-                        body = _a.sent();
-                        if (body.ok) {
-                            return [2 /*return*/, body.result];
+                        _b = _c.sent(), statusCode = _b.statusCode, body = _b.body;
+                        data = '';
+                        _c.label = 2;
+                    case 2:
+                        _c.trys.push([2, 7, 8, 13]);
+                        body_1 = __asyncValues(body);
+                        _c.label = 3;
+                    case 3: return [4 /*yield*/, body_1.next()];
+                    case 4:
+                        if (!(body_1_1 = _c.sent(), !body_1_1.done)) return [3 /*break*/, 6];
+                        chunk = body_1_1.value;
+                        data += chunk;
+                        _c.label = 5;
+                    case 5: return [3 /*break*/, 3];
+                    case 6: return [3 /*break*/, 13];
+                    case 7:
+                        e_1_1 = _c.sent();
+                        e_1 = { error: e_1_1 };
+                        return [3 /*break*/, 13];
+                    case 8:
+                        _c.trys.push([8, , 11, 12]);
+                        if (!(body_1_1 && !body_1_1.done && (_a = body_1.return))) return [3 /*break*/, 10];
+                        return [4 /*yield*/, _a.call(body_1)];
+                    case 9:
+                        _c.sent();
+                        _c.label = 10;
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
+                        if (e_1) throw e_1.error;
+                        return [7 /*endfinally*/];
+                    case 12: return [7 /*endfinally*/];
+                    case 13:
+                        if (statusCode !== 200) {
+                            console.error(data);
+                            throw new Error('status code is not 200');
                         }
-                        throw new Error(body.description);
+                        result = JSON.parse(data);
+                        if (result.ok) {
+                            return [2 /*return*/, result.result];
+                        }
+                        else {
+                            throw new Error(result.description);
+                        }
+                        return [2 /*return*/];
                 }
             });
         });

@@ -24,8 +24,12 @@ var TelegramListener = /** @class */ (function () {
             if (lastUpdate) {
                 _this.updateOffset = lastUpdate.update_id + 1;
             }
-            _this.startPolling();
-            updates.forEach(function (update) { return _this.processUpdates(update); });
+            process.nextTick(function () {
+                _this.startPolling();
+            });
+            if (updates) {
+                updates.forEach(function (update) { return _this.processUpdates(update); });
+            }
         });
     };
     return TelegramListener;

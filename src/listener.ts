@@ -36,9 +36,14 @@ export class TelegramListener {
 					this.updateOffset = lastUpdate.update_id + 1;
 				}
 
-				this.startPolling();
+				process.nextTick(() => {
+					this.startPolling();
+				});
 
-				updates.forEach((update) => this.processUpdates(update));
+				if (updates) {
+					updates.forEach((update) => this.processUpdates(update));
+				}
+
 			})
 	}
 }

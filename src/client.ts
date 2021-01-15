@@ -1,4 +1,4 @@
-import got from 'got';
+import { Client } from 'undici';
 import * as Tgt from './types/telegram';
 
 export interface TelegramClientOptions {
@@ -8,9 +8,9 @@ export interface TelegramClientOptions {
 }
 
 export class TelegramClient {
-	BASE_URL = 'https://api.telegram.org/';
+	BASE_URL = 'https://api.telegram.org';
 	token: string;
-	client: typeof got;
+	httpClient: Client;
 
 	constructor (config: TelegramClientOptions) {
 		this.token = config.token;
@@ -19,24 +19,38 @@ export class TelegramClient {
 			this.BASE_URL = config.baseUrl;
 		}
 
-		this.client = got.extend({
-			prefixUrl: `${this.BASE_URL}bot${this.token}/`,
-			timeout: 35*1000,
-			responseType: 'json',
-			headers: {
-				'user-agent': 'TypescriptTelegramBot/0.0.1',
-			},
-		});
+		this.httpClient = new Client(this.BASE_URL);
 	}
 
 	async request<T> (endpoint: string, params?: Tgt.RequestParameters): Promise<T> {
-		const body = await this.client.post(endpoint, { json: params }).json<Tgt.Response<T>>();
+		console.log({ endpoint, params });
 
-		if (body.ok) {
-			return body.result;
+		const query = new URLSearchParams(params as Record<string, string>);
+		const queryString = query.toString();
+
+		const { statusCode, body, } = await this.httpClient
+			.request({ 
+				path: `/bot${this.token}/${endpoint}?${queryString}`,
+				method: 'GET',
+			});
+
+		let data = '';
+		for await (const chunk of body) {
+			data += chunk;
 		}
 
-		throw new Error(body.description);
+		if (statusCode !== 200) {
+			console.error(data);
+			throw new Error('status code is not 200');
+		}
+
+		const result: Tgt.Response<T> = JSON.parse(data);
+
+		if (result.ok) {
+			return result.result;
+		} else {
+			throw new Error(result.description);
+		}
 	}
 
 	getUpdates (params?: Tgt.GetUpdatesParameters): Promise<Tgt.Update[]> {
