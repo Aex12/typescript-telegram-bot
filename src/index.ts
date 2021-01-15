@@ -1,5 +1,5 @@
-import client from './client';
+import { TelegramClient } from './client';
+import { TelegramListener } from './listener';
 
-console.log('hola')
-
-export default client;
+export { TelegramClient };
+export { TelegramListener };

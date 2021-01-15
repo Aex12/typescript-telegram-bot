@@ -1,10 +1,19 @@
-import TelegramBot from './client';
+import { TelegramClient, TelegramListener } from './index';
 
 if (typeof process.env.TELEGRAM_TOKEN !== 'string') {
 	console.error('You need a token');
 	process.exit(0);
 }
 
-const bot = new TelegramBot({ token: process.env.TELEGRAM_TOKEN });
+const client = new TelegramClient({ token: process.env.TELEGRAM_TOKEN });
+const listener = new TelegramListener({ client });
 
-bot.getUpdates().then(console.log);
+client.getMe().then(console.log);
+
+listener.onUpdate((update) => {
+	if (update.message) {
+		client.sendMessage({ chat_id: update.message.chat.id, text: 'pong' });
+	}
+});
+
+listener.startPolling();

@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx",
-    "build": "npx tsc"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "build": "tsc",
+    "watch": "tsc -w"
   },
   "author": "Alejandro Castón Molero",
   "license": "MIT",

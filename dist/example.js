@@ -1,13 +1,17 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var client_1 = __importDefault(require("./client"));
+var index_1 = require("./index");
 if (typeof process.env.TELEGRAM_TOKEN !== 'string') {
     console.error('You need a token');
     process.exit(0);
 }
-var bot = new client_1.default({ token: process.env.TELEGRAM_TOKEN });
-bot.getUpdates().then(console.log);
+var client = new index_1.TelegramClient({ token: process.env.TELEGRAM_TOKEN });
+var listener = new index_1.TelegramListener({ client: client });
+client.getMe().then(console.log);
+listener.onUpdate(function (update) {
+    if (update.message) {
+        client.sendMessage({ chat_id: update.message.chat.id, text: 'pong' });
+    }
+});
+listener.startPolling();
 //# sourceMappingURL=example.js.map

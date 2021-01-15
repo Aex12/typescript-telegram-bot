@@ -39,28 +39,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TelegramClient = void 0;
 var got_1 = __importDefault(require("got"));
-var TelegramBot = /** @class */ (function () {
-    function TelegramBot(config) {
+var TelegramClient = /** @class */ (function () {
+    function TelegramClient(config) {
         this.BASE_URL = 'https://api.telegram.org/';
-        this.timeout = 5000;
         this.token = config.token;
         if (config.baseUrl) {
             this.BASE_URL = config.baseUrl;
         }
-        if (config.timeout) {
-            this.timeout = config.timeout;
-        }
         this.client = got_1.default.extend({
             prefixUrl: this.BASE_URL + "bot" + this.token + "/",
-            timeout: this.timeout,
+            timeout: 35 * 1000,
             responseType: 'json',
             headers: {
                 'user-agent': 'TypescriptTelegramBot/0.0.1',
             },
         });
     }
-    TelegramBot.prototype.request = function (endpoint, params) {
+    TelegramClient.prototype.request = function (endpoint, params) {
         return __awaiter(this, void 0, void 0, function () {
             var body;
             return __generator(this, function (_a) {
@@ -76,229 +73,229 @@ var TelegramBot = /** @class */ (function () {
             });
         });
     };
-    TelegramBot.prototype.getUpdates = function (params) {
+    TelegramClient.prototype.getUpdates = function (params) {
         return this.request('getUpdates', params);
     };
-    TelegramBot.prototype.setWebhook = function (params) {
+    TelegramClient.prototype.setWebhook = function (params) {
         return this.request('setWebHook', params);
     };
-    TelegramBot.prototype.deleteWebhook = function (params) {
+    TelegramClient.prototype.deleteWebhook = function (params) {
         return this.request('deleteWebHook', params);
     };
-    TelegramBot.prototype.getWebhookInfo = function () {
+    TelegramClient.prototype.getWebhookInfo = function () {
         return this.request('deleteWebHook');
     };
-    TelegramBot.prototype.getMe = function () {
+    TelegramClient.prototype.getMe = function () {
         return this.request('getMe');
     };
-    TelegramBot.prototype.logOut = function () {
+    TelegramClient.prototype.logOut = function () {
         return this.request('logOut');
     };
-    TelegramBot.prototype.close = function () {
+    TelegramClient.prototype.close = function () {
         return this.request('logOut');
     };
-    TelegramBot.prototype.sendMessage = function (params) {
+    TelegramClient.prototype.sendMessage = function (params) {
         return this.request('sendMessage', params);
     };
-    TelegramBot.prototype.forwardMessage = function (params) {
+    TelegramClient.prototype.forwardMessage = function (params) {
         return this.request('forwardMessage', params);
     };
-    TelegramBot.prototype.copyMessage = function (params) {
+    TelegramClient.prototype.copyMessage = function (params) {
         return this.request('copyMessage', params);
     };
-    TelegramBot.prototype.sendPhoto = function (params) {
+    TelegramClient.prototype.sendPhoto = function (params) {
         return this.request('sendPhoto', params);
     };
-    TelegramBot.prototype.sendAudio = function (params) {
+    TelegramClient.prototype.sendAudio = function (params) {
         return this.request('sendAudio', params);
     };
-    TelegramBot.prototype.sendDocument = function (params) {
+    TelegramClient.prototype.sendDocument = function (params) {
         return this.request('sendDocument', params);
     };
-    TelegramBot.prototype.sendVideo = function (params) {
+    TelegramClient.prototype.sendVideo = function (params) {
         return this.request('sendVideo', params);
     };
-    TelegramBot.prototype.sendAnimation = function (params) {
+    TelegramClient.prototype.sendAnimation = function (params) {
         return this.request('sendAnimation', params);
     };
-    TelegramBot.prototype.sendVoice = function (params) {
+    TelegramClient.prototype.sendVoice = function (params) {
         return this.request('sendVoice', params);
     };
-    TelegramBot.prototype.sendVideoNote = function (params) {
+    TelegramClient.prototype.sendVideoNote = function (params) {
         return this.request('sendVideoNote', params);
     };
-    TelegramBot.prototype.sendMediaGroup = function (params) {
+    TelegramClient.prototype.sendMediaGroup = function (params) {
         return this.request('sendMediaGroup', params);
     };
-    TelegramBot.prototype.sendLocation = function (params) {
+    TelegramClient.prototype.sendLocation = function (params) {
         return this.request('sendLocation', params);
     };
-    TelegramBot.prototype.editMessageLiveLocation = function (params) {
+    TelegramClient.prototype.editMessageLiveLocation = function (params) {
         return this.request('editMessageLiveLocation', params);
     };
-    TelegramBot.prototype.stopMessageLiveLocation = function (params) {
+    TelegramClient.prototype.stopMessageLiveLocation = function (params) {
         return this.request('stopMessageLiveLocation', params);
     };
-    TelegramBot.prototype.sendVenue = function (params) {
+    TelegramClient.prototype.sendVenue = function (params) {
         return this.request('sendVenue', params);
     };
-    TelegramBot.prototype.sendContact = function (params) {
+    TelegramClient.prototype.sendContact = function (params) {
         return this.request('sendContact', params);
     };
-    TelegramBot.prototype.sendPoll = function (params) {
+    TelegramClient.prototype.sendPoll = function (params) {
         return this.request('sendPoll', params);
     };
-    TelegramBot.prototype.sendDice = function (params) {
+    TelegramClient.prototype.sendDice = function (params) {
         return this.request('sendDice', params);
     };
-    TelegramBot.prototype.sendChatAction = function (params) {
+    TelegramClient.prototype.sendChatAction = function (params) {
         return this.request('sendChatAction', params);
     };
-    TelegramBot.prototype.getUserProfilePhotos = function (params) {
+    TelegramClient.prototype.getUserProfilePhotos = function (params) {
         return this.request('getUserProfilePhotos', params);
     };
-    TelegramBot.prototype.getFile = function (params) {
+    TelegramClient.prototype.getFile = function (params) {
         return this.request('getFile', params);
     };
-    TelegramBot.prototype.kickChatMember = function (params) {
+    TelegramClient.prototype.kickChatMember = function (params) {
         return this.request('kickChatMember', params);
     };
-    TelegramBot.prototype.unbanChatMember = function (params) {
+    TelegramClient.prototype.unbanChatMember = function (params) {
         return this.request('unbanChatMember', params);
     };
-    TelegramBot.prototype.restrictChatMember = function (params) {
+    TelegramClient.prototype.restrictChatMember = function (params) {
         return this.request('restrictChatMember', params);
     };
-    TelegramBot.prototype.promoteChatMember = function (params) {
+    TelegramClient.prototype.promoteChatMember = function (params) {
         return this.request('promoteChatMember', params);
     };
-    TelegramBot.prototype.setChatAdministratorCustomTitle = function (params) {
+    TelegramClient.prototype.setChatAdministratorCustomTitle = function (params) {
         return this.request('setChatAdministratorCustomTitle', params);
     };
-    TelegramBot.prototype.setChatPermissions = function (params) {
+    TelegramClient.prototype.setChatPermissions = function (params) {
         return this.request('setChatPermissions', params);
     };
-    TelegramBot.prototype.exportChatInviteLink = function (params) {
+    TelegramClient.prototype.exportChatInviteLink = function (params) {
         return this.request('exportChatInviteLink', params);
     };
-    TelegramBot.prototype.setChatPhoto = function (params) {
+    TelegramClient.prototype.setChatPhoto = function (params) {
         return this.request('setChatPhoto', params);
     };
-    TelegramBot.prototype.deleteChatPhoto = function (params) {
+    TelegramClient.prototype.deleteChatPhoto = function (params) {
         return this.request('deleteChatPhoto', params);
     };
-    TelegramBot.prototype.setChatTitle = function (params) {
+    TelegramClient.prototype.setChatTitle = function (params) {
         return this.request('setChatTitle', params);
     };
-    TelegramBot.prototype.setChatDescription = function (params) {
+    TelegramClient.prototype.setChatDescription = function (params) {
         return this.request('setChatDescription', params);
     };
-    TelegramBot.prototype.pinChatMessage = function (params) {
+    TelegramClient.prototype.pinChatMessage = function (params) {
         return this.request('pinChatMessage', params);
     };
-    TelegramBot.prototype.unpinChatMessage = function (params) {
+    TelegramClient.prototype.unpinChatMessage = function (params) {
         return this.request('unpinChatMessage', params);
     };
-    TelegramBot.prototype.unpinAllChatMessages = function (params) {
+    TelegramClient.prototype.unpinAllChatMessages = function (params) {
         return this.request('unpinAllChatMessages', params);
     };
-    TelegramBot.prototype.leaveChat = function (params) {
+    TelegramClient.prototype.leaveChat = function (params) {
         return this.request('leaveChat', params);
     };
-    TelegramBot.prototype.getChat = function (params) {
+    TelegramClient.prototype.getChat = function (params) {
         return this.request('getChat', params);
     };
-    TelegramBot.prototype.getChatAdministrators = function (params) {
+    TelegramClient.prototype.getChatAdministrators = function (params) {
         return this.request('getChatAdministrators', params);
     };
-    TelegramBot.prototype.getChatMembersCount = function (params) {
+    TelegramClient.prototype.getChatMembersCount = function (params) {
         return this.request('getChatMembersCount', params);
     };
-    TelegramBot.prototype.getChatMember = function (params) {
+    TelegramClient.prototype.getChatMember = function (params) {
         return this.request('getChatMember', params);
     };
-    TelegramBot.prototype.setChatStickerSet = function (params) {
+    TelegramClient.prototype.setChatStickerSet = function (params) {
         return this.request('setChatStickerSet', params);
     };
-    TelegramBot.prototype.deleteChatStickerSet = function (params) {
+    TelegramClient.prototype.deleteChatStickerSet = function (params) {
         return this.request('deleteChatStickerSet', params);
     };
-    TelegramBot.prototype.answerCallbackQuery = function (params) {
+    TelegramClient.prototype.answerCallbackQuery = function (params) {
         return this.request('answerCallbackQuery', params);
     };
-    TelegramBot.prototype.setMyCommands = function (params) {
+    TelegramClient.prototype.setMyCommands = function (params) {
         return this.request('setMyCommands', params);
     };
-    TelegramBot.prototype.getMyCommands = function () {
+    TelegramClient.prototype.getMyCommands = function () {
         return this.request('getMyCommands');
     };
-    TelegramBot.prototype.editMessageText = function (params) {
+    TelegramClient.prototype.editMessageText = function (params) {
         return this.request('editMessageText', params);
     };
-    TelegramBot.prototype.editMessageCaption = function (params) {
+    TelegramClient.prototype.editMessageCaption = function (params) {
         return this.request('editMessageCaption', params);
     };
-    TelegramBot.prototype.editMessageMedia = function (params) {
+    TelegramClient.prototype.editMessageMedia = function (params) {
         return this.request('editMessageMedia', params);
     };
-    TelegramBot.prototype.editMessageReplyMarkup = function (params) {
+    TelegramClient.prototype.editMessageReplyMarkup = function (params) {
         return this.request('editMessageReplyMarkup', params);
     };
-    TelegramBot.prototype.stopPoll = function (params) {
+    TelegramClient.prototype.stopPoll = function (params) {
         return this.request('stopPoll', params);
     };
-    TelegramBot.prototype.deleteMessage = function (params) {
+    TelegramClient.prototype.deleteMessage = function (params) {
         return this.request('deleteMessage', params);
     };
-    TelegramBot.prototype.sendSticker = function (params) {
+    TelegramClient.prototype.sendSticker = function (params) {
         return this.request('sendSticker', params);
     };
-    TelegramBot.prototype.getStickerSet = function (params) {
+    TelegramClient.prototype.getStickerSet = function (params) {
         return this.request('getStickerSet', params);
     };
-    TelegramBot.prototype.uploadStickerFile = function (params) {
+    TelegramClient.prototype.uploadStickerFile = function (params) {
         return this.request('uploadStickerFile', params);
     };
-    TelegramBot.prototype.createNewStickerSet = function (params) {
+    TelegramClient.prototype.createNewStickerSet = function (params) {
         return this.request('createNewStickerSet', params);
     };
-    TelegramBot.prototype.addStickerToSet = function (params) {
+    TelegramClient.prototype.addStickerToSet = function (params) {
         return this.request('addStickerToSet', params);
     };
-    TelegramBot.prototype.setStickerPositionInSet = function (params) {
+    TelegramClient.prototype.setStickerPositionInSet = function (params) {
         return this.request('setStickerPositionInSet', params);
     };
-    TelegramBot.prototype.deleteStickerFromSet = function (params) {
+    TelegramClient.prototype.deleteStickerFromSet = function (params) {
         return this.request('deleteStickerFromSet', params);
     };
-    TelegramBot.prototype.setStickerSetThumb = function (params) {
+    TelegramClient.prototype.setStickerSetThumb = function (params) {
         return this.request('setStickerSetThumb', params);
     };
-    TelegramBot.prototype.answerInlineQuery = function (params) {
+    TelegramClient.prototype.answerInlineQuery = function (params) {
         return this.request('answerInlineQuery', params);
     };
-    TelegramBot.prototype.sendInvoice = function (params) {
+    TelegramClient.prototype.sendInvoice = function (params) {
         return this.request('sendInvoice', params);
     };
-    TelegramBot.prototype.answerShippingQuery = function (params) {
+    TelegramClient.prototype.answerShippingQuery = function (params) {
         return this.request('answerShippingQuery', params);
     };
-    TelegramBot.prototype.answerPreCheckoutQuery = function (params) {
+    TelegramClient.prototype.answerPreCheckoutQuery = function (params) {
         return this.request('answerPreCheckoutQuery', params);
     };
-    TelegramBot.prototype.setPassportDataErrors = function (params) {
+    TelegramClient.prototype.setPassportDataErrors = function (params) {
         return this.request('setPassportDataErrors', params);
     };
-    TelegramBot.prototype.sendGame = function (params) {
+    TelegramClient.prototype.sendGame = function (params) {
         return this.request('sendGame', params);
     };
-    TelegramBot.prototype.setGameScore = function (params) {
+    TelegramClient.prototype.setGameScore = function (params) {
         return this.request('setGameScore', params);
     };
-    TelegramBot.prototype.getGameHighScores = function (params) {
+    TelegramClient.prototype.getGameHighScores = function (params) {
         return this.request('getGameHighScores', params);
     };
-    return TelegramBot;
+    return TelegramClient;
 }());
-exports.default = TelegramBot;
+exports.TelegramClient = TelegramClient;
 //# sourceMappingURL=client.js.map
