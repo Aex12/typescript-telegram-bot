@@ -7,7 +7,7 @@ export interface TelegramClientOptions {
 	timeout?: number;
 }
 
-export class TelegramClient {
+export default class TelegramClient {
 	BASE_URL = 'https://api.telegram.org';
 	token: string;
 	httpClient: Client;
@@ -23,8 +23,6 @@ export class TelegramClient {
 	}
 
 	async request<T> (endpoint: string, params?: Tgt.RequestParameters): Promise<T> {
-		console.log({ endpoint, params });
-
 		const query = new URLSearchParams(params as Record<string, string>);
 		const queryString = query.toString();
 

@@ -9,8 +9,12 @@ var client = new index_1.TelegramClient({ token: process.env.TELEGRAM_TOKEN });
 var listener = new index_1.TelegramListener({ client: client });
 client.getMe().then(console.log);
 listener.onUpdate(function (update) {
-    if (update.message) {
-        client.sendMessage({ chat_id: update.message.chat.id, text: 'pong' });
+    if (update.message && update.message.text) {
+        client.sendMessage({
+            chat_id: update.message.chat.id,
+            text: update.message.text,
+            parse_mode: 'Markdown',
+        });
     }
 });
 listener.startPolling();

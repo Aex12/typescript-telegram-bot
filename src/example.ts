@@ -11,8 +11,12 @@ const listener = new TelegramListener({ client });
 client.getMe().then(console.log);
 
 listener.onUpdate((update) => {
-	if (update.message) {
-		client.sendMessage({ chat_id: update.message.chat.id, text: 'pong' });
+	if (update.message && update.message.text) {
+		client.sendMessage({ 
+			chat_id: update.message.chat.id,
+			text: update.message.text,
+			parse_mode: 'Markdown',
+		});
 	}
 });
 

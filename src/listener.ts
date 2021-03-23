@@ -25,25 +25,24 @@ export class TelegramListener {
 	}
 
 	startPolling (): void {
-		this.client.getUpdates({ 
-			offset: this.updateOffset,
-			timeout: 30,
-		})
-			.then((updates) => {
-				const lastUpdate = updates[updates.length-1]
-
-				if (lastUpdate) {
-					this.updateOffset = lastUpdate.update_id + 1;
-				}
-
-				process.nextTick(() => {
-					this.startPolling();
-				});
-
-				if (updates) {
-					updates.forEach((update) => this.processUpdates(update));
-				}
-
+		(async () => {
+			const updates = await this.client.getUpdates({ 
+				offset: this.updateOffset,
+				timeout: 30,
 			})
+			const lastUpdate = updates[updates.length-1]
+
+			if (lastUpdate) {
+				this.updateOffset = lastUpdate.update_id + 1;
+			}
+
+			process.nextTick(() => {
+				this.startPolling();
+			});
+
+			if (updates) {
+				updates.forEach((update: Tgt.Update) => this.processUpdates(update));
+			}
+		})();
 	}
 }

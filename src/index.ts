@@ -1,4 +1,4 @@
-import { TelegramClient } from './client';
+import TelegramClient from './client';
 import { TelegramListener } from './listener';
 
 export { TelegramClient };
