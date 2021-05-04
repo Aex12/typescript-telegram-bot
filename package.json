@@ -2,7 +2,8 @@
   "name": "typescript-telegram-bot",
   "version": "0.0.1",
   "description": "A typescript telegram bot api client",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
