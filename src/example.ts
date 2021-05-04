@@ -11,11 +11,12 @@ const listener = new TelegramListener({ client });
 client.getMe().then(console.log);
 
 listener.onUpdate((update) => {
-	if (update.message && update.message.text) {
+	if (update.message && update.message.text && update.message.text === 'google') {
 		client.sendMessage({ 
 			chat_id: update.message.chat.id,
 			text: update.message.text,
 			parse_mode: 'Markdown',
+			reply_markup: { inline_keyboard: [[{ text: 'Google', url: 'https://www.google.es/' }]] },
 		});
 	}
 });

@@ -24,13 +24,16 @@ export default class TelegramClient {
 	}
 
 	async request<T> (endpoint: string, params?: Tgt.RequestParameters): Promise<T> {
-		const query = new URLSearchParams(params as Record<string, string>);
-		const queryString = query.toString();
+		console.log(params);
 
 		const { statusCode, body, } = await this.httpClient
 			.request({ 
-				path: `/bot${this.token}/${endpoint}?${queryString}`,
-				method: 'GET',
+				path: `/bot${this.token}/${endpoint}`,
+				method: 'POST',
+				body: JSON.stringify(params),
+				headers: {
+					'content-type': 'application/json',
+				},
 			});
 
 		let data = '';

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const undici_1 = require("undici");
-const url_1 = require("url");
 class TelegramClient {
     constructor(config) {
         this.BASE_URL = 'https://api.telegram.org';
@@ -12,12 +11,15 @@ class TelegramClient {
         this.httpClient = new undici_1.Client(this.BASE_URL);
     }
     async request(endpoint, params) {
-        const query = new url_1.URLSearchParams(params);
-        const queryString = query.toString();
+        console.log(params);
         const { statusCode, body, } = await this.httpClient
             .request({
-            path: `/bot${this.token}/${endpoint}?${queryString}`,
-            method: 'GET',
+            path: `/bot${this.token}/${endpoint}`,
+            method: 'POST',
+            body: JSON.stringify(params),
+            headers: {
+                'content-type': 'application/json',
+            },
         });
         let data = '';
         for await (const chunk of body) {
