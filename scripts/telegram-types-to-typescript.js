@@ -7,9 +7,16 @@
 (function () {
 	function getType (t) {
 		if (/^Array of /.test(t)) {
-			return t.replace(/Array of ([A-Za-z]+)/, (str, p1) => {
+			return t.replace(/Array of (.+)/, (str, p1) => {
 				return `${getType(p1)}[]`
 			});
+		}
+
+		const or = t.split(' or ');
+		if (or.length >= 2) {
+			return or
+				.map((tt) => getType(tt))
+				.join(' | ');
 		}
 
 		switch (t) {
@@ -22,7 +29,7 @@
 			case 'Boolean':
 				return 'boolean';
 			default:
-				return `Telegram${t}`;
+				return `${t}`;
 		}
 	}
 
@@ -59,27 +66,17 @@
 			if (i === 0) {
 				const interface = h4.innerText;
 				if (columns.length === 3) {
-					output += `interface Telegram${interface} {\n`;
+					output += `export interface ${interface} {\n`;
 				} else {
-					output += `interface Telegram${capFirst(interface)}Parameters {\n`;
+					output += `export interface ${capFirst(interface)}Parameters {\n`;
 				}
 			}
 
-			
+			const field = columns[0].innerText;
+			const type = getType(columns[1].innerText);
+			const optional = columns[2].innerText.startsWith('Optional') ? '?' : '';
 
-			if (columns.length === 3) {
-				const field = columns[0].innerText;
-				const type = getType(columns[1].innerText)
-				const optional = columns[2].innerText.startsWith('Optional') ? '?' : '';
-
-				output += `\t${field}${optional}: ${type};\n`;
-			} else {
-				const parameter = columns[0].innerText;
-				const type = getType(columns[1].innerText)
-				const optional = columns[2].innerText.startsWith('Optional') ? '?' : '';
-
-				output += `\t${parameter}${optional}: ${type};\n`;
-			}
+			output += `\t${field}${optional}: ${type};\n`;
 		})
 		
 		output += `}\n\n`;
