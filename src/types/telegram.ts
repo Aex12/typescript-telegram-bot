@@ -402,7 +402,7 @@ export interface ReplyKeyboardRemove {
 }
 
 export interface InlineKeyboardMarkup {
-	inline_keyboard: InlineKeyboardButton[];
+	inline_keyboard: InlineKeyboardButton[][];
 }
 
 export interface InlineKeyboardButton {

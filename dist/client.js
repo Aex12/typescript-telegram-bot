@@ -43,7 +43,6 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TelegramClient = void 0;
 var undici_1 = require("undici");
 var TelegramClient = /** @class */ (function () {
     function TelegramClient(config) {
@@ -61,7 +60,6 @@ var TelegramClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        console.log({ endpoint: endpoint, params: params });
                         query = new URLSearchParams(params);
                         queryString = query.toString();
                         return [4 /*yield*/, this.httpClient
@@ -342,5 +340,5 @@ var TelegramClient = /** @class */ (function () {
     };
     return TelegramClient;
 }());
-exports.TelegramClient = TelegramClient;
+exports.default = TelegramClient;
 //# sourceMappingURL=client.js.map

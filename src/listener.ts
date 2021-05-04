@@ -1,4 +1,4 @@
-import { TelegramClient } from './client';
+import TelegramClient from './client';
 import * as Tgt from './types/telegram';
 
 export interface TelegramListenerOptions {
