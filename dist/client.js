@@ -11,7 +11,6 @@ class TelegramClient {
         this.httpClient = new undici_1.Client(this.BASE_URL);
     }
     async request(endpoint, params) {
-        console.log(params);
         const { statusCode, body, } = await this.httpClient
             .request({
             path: `/bot${this.token}/${endpoint}`,

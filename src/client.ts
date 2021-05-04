@@ -24,8 +24,6 @@ export default class TelegramClient {
 	}
 
 	async request<T> (endpoint: string, params?: Tgt.RequestParameters): Promise<T> {
-		console.log(params);
-
 		const { statusCode, body, } = await this.httpClient
 			.request({ 
 				path: `/bot${this.token}/${endpoint}`,
