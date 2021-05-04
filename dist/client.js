@@ -25,15 +25,20 @@ class TelegramClient {
             data += chunk;
         }
         if (statusCode !== 200) {
-            console.error(data);
-            throw new Error('status code is not 200');
+            throw new Error(`Received ${statusCode} status code from Telegram API: ${data}`);
         }
-        const result = JSON.parse(data);
-        if (result.ok) {
-            return result.result;
+        let response;
+        try {
+            response = JSON.parse(data);
+        }
+        catch (e) {
+            throw new Error(`Received unexpected response from Telegram API: ${data}`);
+        }
+        if (response.ok) {
+            return response.result;
         }
         else {
-            throw new Error(result.description);
+            throw new Error(response.description);
         }
     }
     getUpdates(params) {
