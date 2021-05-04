@@ -4,11 +4,12 @@
 
   "compilerOptions": {
     "lib": ["es2020"],
-    "module": "es2020",
+    "module": "commonjs",
     "target": "es2020",
 	// "rootDir": "src/",
 	"outDir": "dist/",
-    "moduleResolution": "node",
+    // "moduleResolution": "node",
+    "declaration": true,
 
     "strict": true,
     "esModuleInterop": true,

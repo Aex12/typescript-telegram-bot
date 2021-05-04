@@ -1,4 +1,7 @@
-export class TelegramListener {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TelegramListener = void 0;
+class TelegramListener {
     constructor(config) {
         this.updateHandlers = [];
         this.updateOffset = 0;
@@ -29,3 +32,4 @@ export class TelegramListener {
         })();
     }
 }
+exports.TelegramListener = TelegramListener;

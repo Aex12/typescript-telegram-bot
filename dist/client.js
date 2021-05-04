@@ -1,16 +1,18 @@
-import { Client } from 'undici';
-import { URLSearchParams } from 'url';
-export default class TelegramClient {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const undici_1 = require("undici");
+const url_1 = require("url");
+class TelegramClient {
     constructor(config) {
         this.BASE_URL = 'https://api.telegram.org';
         this.token = config.token;
         if (config.baseUrl) {
             this.BASE_URL = config.baseUrl;
         }
-        this.httpClient = new Client(this.BASE_URL);
+        this.httpClient = new undici_1.Client(this.BASE_URL);
     }
     async request(endpoint, params) {
-        const query = new URLSearchParams(params);
+        const query = new url_1.URLSearchParams(params);
         const queryString = query.toString();
         const { statusCode, body, } = await this.httpClient
             .request({
@@ -256,3 +258,4 @@ export default class TelegramClient {
         return this.request('getGameHighScores', params);
     }
 }
+exports.default = TelegramClient;
