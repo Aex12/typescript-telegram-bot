@@ -1,5 +1,6 @@
 import { Client } from 'undici';
 import * as Tgt from './types/telegram';
+import { URLSearchParams } from 'url';
 
 export interface TelegramClientOptions {
 	token: string;

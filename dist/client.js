@@ -1,51 +1,9 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __asyncValues = (this && this.__asyncValues) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var undici_1 = require("undici");
-var TelegramClient = /** @class */ (function () {
-    function TelegramClient(config) {
+const undici_1 = require("undici");
+const url_1 = require("url");
+class TelegramClient {
+    constructor(config) {
         this.BASE_URL = 'https://api.telegram.org';
         this.token = config.token;
         if (config.baseUrl) {
@@ -53,292 +11,251 @@ var TelegramClient = /** @class */ (function () {
         }
         this.httpClient = new undici_1.Client(this.BASE_URL);
     }
-    TelegramClient.prototype.request = function (endpoint, params) {
-        var e_1, _a;
-        return __awaiter(this, void 0, void 0, function () {
-            var query, queryString, _b, statusCode, body, data, body_1, body_1_1, chunk, e_1_1, result;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        query = new URLSearchParams(params);
-                        queryString = query.toString();
-                        return [4 /*yield*/, this.httpClient
-                                .request({
-                                path: "/bot" + this.token + "/" + endpoint + "?" + queryString,
-                                method: 'GET',
-                            })];
-                    case 1:
-                        _b = _c.sent(), statusCode = _b.statusCode, body = _b.body;
-                        data = '';
-                        _c.label = 2;
-                    case 2:
-                        _c.trys.push([2, 7, 8, 13]);
-                        body_1 = __asyncValues(body);
-                        _c.label = 3;
-                    case 3: return [4 /*yield*/, body_1.next()];
-                    case 4:
-                        if (!(body_1_1 = _c.sent(), !body_1_1.done)) return [3 /*break*/, 6];
-                        chunk = body_1_1.value;
-                        data += chunk;
-                        _c.label = 5;
-                    case 5: return [3 /*break*/, 3];
-                    case 6: return [3 /*break*/, 13];
-                    case 7:
-                        e_1_1 = _c.sent();
-                        e_1 = { error: e_1_1 };
-                        return [3 /*break*/, 13];
-                    case 8:
-                        _c.trys.push([8, , 11, 12]);
-                        if (!(body_1_1 && !body_1_1.done && (_a = body_1.return))) return [3 /*break*/, 10];
-                        return [4 /*yield*/, _a.call(body_1)];
-                    case 9:
-                        _c.sent();
-                        _c.label = 10;
-                    case 10: return [3 /*break*/, 12];
-                    case 11:
-                        if (e_1) throw e_1.error;
-                        return [7 /*endfinally*/];
-                    case 12: return [7 /*endfinally*/];
-                    case 13:
-                        if (statusCode !== 200) {
-                            console.error(data);
-                            throw new Error('status code is not 200');
-                        }
-                        result = JSON.parse(data);
-                        if (result.ok) {
-                            return [2 /*return*/, result.result];
-                        }
-                        else {
-                            throw new Error(result.description);
-                        }
-                        return [2 /*return*/];
-                }
-            });
+    async request(endpoint, params) {
+        const query = new url_1.URLSearchParams(params);
+        const queryString = query.toString();
+        const { statusCode, body, } = await this.httpClient
+            .request({
+            path: `/bot${this.token}/${endpoint}?${queryString}`,
+            method: 'GET',
         });
-    };
-    TelegramClient.prototype.getUpdates = function (params) {
+        let data = '';
+        for await (const chunk of body) {
+            data += chunk;
+        }
+        if (statusCode !== 200) {
+            console.error(data);
+            throw new Error('status code is not 200');
+        }
+        const result = JSON.parse(data);
+        if (result.ok) {
+            return result.result;
+        }
+        else {
+            throw new Error(result.description);
+        }
+    }
+    getUpdates(params) {
         return this.request('getUpdates', params);
-    };
-    TelegramClient.prototype.setWebhook = function (params) {
+    }
+    setWebhook(params) {
         return this.request('setWebHook', params);
-    };
-    TelegramClient.prototype.deleteWebhook = function (params) {
+    }
+    deleteWebhook(params) {
         return this.request('deleteWebHook', params);
-    };
-    TelegramClient.prototype.getWebhookInfo = function () {
+    }
+    getWebhookInfo() {
         return this.request('deleteWebHook');
-    };
-    TelegramClient.prototype.getMe = function () {
+    }
+    getMe() {
         return this.request('getMe');
-    };
-    TelegramClient.prototype.logOut = function () {
+    }
+    logOut() {
         return this.request('logOut');
-    };
-    TelegramClient.prototype.close = function () {
+    }
+    close() {
         return this.request('logOut');
-    };
-    TelegramClient.prototype.sendMessage = function (params) {
+    }
+    sendMessage(params) {
         return this.request('sendMessage', params);
-    };
-    TelegramClient.prototype.forwardMessage = function (params) {
+    }
+    forwardMessage(params) {
         return this.request('forwardMessage', params);
-    };
-    TelegramClient.prototype.copyMessage = function (params) {
+    }
+    copyMessage(params) {
         return this.request('copyMessage', params);
-    };
-    TelegramClient.prototype.sendPhoto = function (params) {
+    }
+    sendPhoto(params) {
         return this.request('sendPhoto', params);
-    };
-    TelegramClient.prototype.sendAudio = function (params) {
+    }
+    sendAudio(params) {
         return this.request('sendAudio', params);
-    };
-    TelegramClient.prototype.sendDocument = function (params) {
+    }
+    sendDocument(params) {
         return this.request('sendDocument', params);
-    };
-    TelegramClient.prototype.sendVideo = function (params) {
+    }
+    sendVideo(params) {
         return this.request('sendVideo', params);
-    };
-    TelegramClient.prototype.sendAnimation = function (params) {
+    }
+    sendAnimation(params) {
         return this.request('sendAnimation', params);
-    };
-    TelegramClient.prototype.sendVoice = function (params) {
+    }
+    sendVoice(params) {
         return this.request('sendVoice', params);
-    };
-    TelegramClient.prototype.sendVideoNote = function (params) {
+    }
+    sendVideoNote(params) {
         return this.request('sendVideoNote', params);
-    };
-    TelegramClient.prototype.sendMediaGroup = function (params) {
+    }
+    sendMediaGroup(params) {
         return this.request('sendMediaGroup', params);
-    };
-    TelegramClient.prototype.sendLocation = function (params) {
+    }
+    sendLocation(params) {
         return this.request('sendLocation', params);
-    };
-    TelegramClient.prototype.editMessageLiveLocation = function (params) {
+    }
+    editMessageLiveLocation(params) {
         return this.request('editMessageLiveLocation', params);
-    };
-    TelegramClient.prototype.stopMessageLiveLocation = function (params) {
+    }
+    stopMessageLiveLocation(params) {
         return this.request('stopMessageLiveLocation', params);
-    };
-    TelegramClient.prototype.sendVenue = function (params) {
+    }
+    sendVenue(params) {
         return this.request('sendVenue', params);
-    };
-    TelegramClient.prototype.sendContact = function (params) {
+    }
+    sendContact(params) {
         return this.request('sendContact', params);
-    };
-    TelegramClient.prototype.sendPoll = function (params) {
+    }
+    sendPoll(params) {
         return this.request('sendPoll', params);
-    };
-    TelegramClient.prototype.sendDice = function (params) {
+    }
+    sendDice(params) {
         return this.request('sendDice', params);
-    };
-    TelegramClient.prototype.sendChatAction = function (params) {
+    }
+    sendChatAction(params) {
         return this.request('sendChatAction', params);
-    };
-    TelegramClient.prototype.getUserProfilePhotos = function (params) {
+    }
+    getUserProfilePhotos(params) {
         return this.request('getUserProfilePhotos', params);
-    };
-    TelegramClient.prototype.getFile = function (params) {
+    }
+    getFile(params) {
         return this.request('getFile', params);
-    };
-    TelegramClient.prototype.kickChatMember = function (params) {
+    }
+    kickChatMember(params) {
         return this.request('kickChatMember', params);
-    };
-    TelegramClient.prototype.unbanChatMember = function (params) {
+    }
+    unbanChatMember(params) {
         return this.request('unbanChatMember', params);
-    };
-    TelegramClient.prototype.restrictChatMember = function (params) {
+    }
+    restrictChatMember(params) {
         return this.request('restrictChatMember', params);
-    };
-    TelegramClient.prototype.promoteChatMember = function (params) {
+    }
+    promoteChatMember(params) {
         return this.request('promoteChatMember', params);
-    };
-    TelegramClient.prototype.setChatAdministratorCustomTitle = function (params) {
+    }
+    setChatAdministratorCustomTitle(params) {
         return this.request('setChatAdministratorCustomTitle', params);
-    };
-    TelegramClient.prototype.setChatPermissions = function (params) {
+    }
+    setChatPermissions(params) {
         return this.request('setChatPermissions', params);
-    };
-    TelegramClient.prototype.exportChatInviteLink = function (params) {
+    }
+    exportChatInviteLink(params) {
         return this.request('exportChatInviteLink', params);
-    };
-    TelegramClient.prototype.setChatPhoto = function (params) {
+    }
+    setChatPhoto(params) {
         return this.request('setChatPhoto', params);
-    };
-    TelegramClient.prototype.deleteChatPhoto = function (params) {
+    }
+    deleteChatPhoto(params) {
         return this.request('deleteChatPhoto', params);
-    };
-    TelegramClient.prototype.setChatTitle = function (params) {
+    }
+    setChatTitle(params) {
         return this.request('setChatTitle', params);
-    };
-    TelegramClient.prototype.setChatDescription = function (params) {
+    }
+    setChatDescription(params) {
         return this.request('setChatDescription', params);
-    };
-    TelegramClient.prototype.pinChatMessage = function (params) {
+    }
+    pinChatMessage(params) {
         return this.request('pinChatMessage', params);
-    };
-    TelegramClient.prototype.unpinChatMessage = function (params) {
+    }
+    unpinChatMessage(params) {
         return this.request('unpinChatMessage', params);
-    };
-    TelegramClient.prototype.unpinAllChatMessages = function (params) {
+    }
+    unpinAllChatMessages(params) {
         return this.request('unpinAllChatMessages', params);
-    };
-    TelegramClient.prototype.leaveChat = function (params) {
+    }
+    leaveChat(params) {
         return this.request('leaveChat', params);
-    };
-    TelegramClient.prototype.getChat = function (params) {
+    }
+    getChat(params) {
         return this.request('getChat', params);
-    };
-    TelegramClient.prototype.getChatAdministrators = function (params) {
+    }
+    getChatAdministrators(params) {
         return this.request('getChatAdministrators', params);
-    };
-    TelegramClient.prototype.getChatMembersCount = function (params) {
+    }
+    getChatMembersCount(params) {
         return this.request('getChatMembersCount', params);
-    };
-    TelegramClient.prototype.getChatMember = function (params) {
+    }
+    getChatMember(params) {
         return this.request('getChatMember', params);
-    };
-    TelegramClient.prototype.setChatStickerSet = function (params) {
+    }
+    setChatStickerSet(params) {
         return this.request('setChatStickerSet', params);
-    };
-    TelegramClient.prototype.deleteChatStickerSet = function (params) {
+    }
+    deleteChatStickerSet(params) {
         return this.request('deleteChatStickerSet', params);
-    };
-    TelegramClient.prototype.answerCallbackQuery = function (params) {
+    }
+    answerCallbackQuery(params) {
         return this.request('answerCallbackQuery', params);
-    };
-    TelegramClient.prototype.setMyCommands = function (params) {
+    }
+    setMyCommands(params) {
         return this.request('setMyCommands', params);
-    };
-    TelegramClient.prototype.getMyCommands = function () {
+    }
+    getMyCommands() {
         return this.request('getMyCommands');
-    };
-    TelegramClient.prototype.editMessageText = function (params) {
+    }
+    editMessageText(params) {
         return this.request('editMessageText', params);
-    };
-    TelegramClient.prototype.editMessageCaption = function (params) {
+    }
+    editMessageCaption(params) {
         return this.request('editMessageCaption', params);
-    };
-    TelegramClient.prototype.editMessageMedia = function (params) {
+    }
+    editMessageMedia(params) {
         return this.request('editMessageMedia', params);
-    };
-    TelegramClient.prototype.editMessageReplyMarkup = function (params) {
+    }
+    editMessageReplyMarkup(params) {
         return this.request('editMessageReplyMarkup', params);
-    };
-    TelegramClient.prototype.stopPoll = function (params) {
+    }
+    stopPoll(params) {
         return this.request('stopPoll', params);
-    };
-    TelegramClient.prototype.deleteMessage = function (params) {
+    }
+    deleteMessage(params) {
         return this.request('deleteMessage', params);
-    };
-    TelegramClient.prototype.sendSticker = function (params) {
+    }
+    sendSticker(params) {
         return this.request('sendSticker', params);
-    };
-    TelegramClient.prototype.getStickerSet = function (params) {
+    }
+    getStickerSet(params) {
         return this.request('getStickerSet', params);
-    };
-    TelegramClient.prototype.uploadStickerFile = function (params) {
+    }
+    uploadStickerFile(params) {
         return this.request('uploadStickerFile', params);
-    };
-    TelegramClient.prototype.createNewStickerSet = function (params) {
+    }
+    createNewStickerSet(params) {
         return this.request('createNewStickerSet', params);
-    };
-    TelegramClient.prototype.addStickerToSet = function (params) {
+    }
+    addStickerToSet(params) {
         return this.request('addStickerToSet', params);
-    };
-    TelegramClient.prototype.setStickerPositionInSet = function (params) {
+    }
+    setStickerPositionInSet(params) {
         return this.request('setStickerPositionInSet', params);
-    };
-    TelegramClient.prototype.deleteStickerFromSet = function (params) {
+    }
+    deleteStickerFromSet(params) {
         return this.request('deleteStickerFromSet', params);
-    };
-    TelegramClient.prototype.setStickerSetThumb = function (params) {
+    }
+    setStickerSetThumb(params) {
         return this.request('setStickerSetThumb', params);
-    };
-    TelegramClient.prototype.answerInlineQuery = function (params) {
+    }
+    answerInlineQuery(params) {
         return this.request('answerInlineQuery', params);
-    };
-    TelegramClient.prototype.sendInvoice = function (params) {
+    }
+    sendInvoice(params) {
         return this.request('sendInvoice', params);
-    };
-    TelegramClient.prototype.answerShippingQuery = function (params) {
+    }
+    answerShippingQuery(params) {
         return this.request('answerShippingQuery', params);
-    };
-    TelegramClient.prototype.answerPreCheckoutQuery = function (params) {
+    }
+    answerPreCheckoutQuery(params) {
         return this.request('answerPreCheckoutQuery', params);
-    };
-    TelegramClient.prototype.setPassportDataErrors = function (params) {
+    }
+    setPassportDataErrors(params) {
         return this.request('setPassportDataErrors', params);
-    };
-    TelegramClient.prototype.sendGame = function (params) {
+    }
+    sendGame(params) {
         return this.request('sendGame', params);
-    };
-    TelegramClient.prototype.setGameScore = function (params) {
+    }
+    setGameScore(params) {
         return this.request('setGameScore', params);
-    };
-    TelegramClient.prototype.getGameHighScores = function (params) {
+    }
+    getGameHighScores(params) {
         return this.request('getGameHighScores', params);
-    };
-    return TelegramClient;
-}());
+    }
+}
 exports.default = TelegramClient;
-//# sourceMappingURL=client.js.map
