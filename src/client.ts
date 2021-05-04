@@ -1,6 +1,5 @@
 import { Client } from 'undici';
 import * as Tgt from './types/telegram';
-import { URLSearchParams } from 'url';
 
 export interface TelegramClientOptions {
 	token: string;
@@ -40,16 +39,20 @@ export default class TelegramClient {
 		}
 
 		if (statusCode !== 200) {
-			console.error(data);
-			throw new Error('status code is not 200');
+			throw new Error(`Received ${statusCode} status code from Telegram API: ${data}`);
 		}
 
-		const result: Tgt.Response<T> = JSON.parse(data);
+		let response: Tgt.Response<T>;
+		try {
+			response = JSON.parse(data);
+		} catch (e) {
+			throw new Error(`Received unexpected response from Telegram API: ${data}`);
+		}
 
-		if (result.ok) {
-			return result.result;
+		if (response.ok) {
+			return response.result;
 		} else {
-			throw new Error(result.description);
+			throw new Error(response.description);
 		}
 	}
 

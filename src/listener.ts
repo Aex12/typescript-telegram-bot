@@ -41,7 +41,7 @@ export class TelegramListener {
 			});
 
 			if (updates) {
-				updates.forEach((update: Tgt.Update) => this.processUpdates(update));
+				updates.forEach((update) => this.processUpdates(update));
 			}
 		})();
 	}
